@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nidam - Contact</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
+        nav { background: #2c3e50; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { color: #fff; font-size: 1.5rem; font-weight: bold; text-decoration: none; }
+        nav .links a { color: #ecf0f1; text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; }
+        nav .links a:hover { color: #3498db; }
+        .page-header { background: linear-gradient(135deg, #3498db, #2c3e50); color: #fff; text-align: center; padding: 4rem 2rem; }
+        .page-header h1 { font-size: 2.5rem; }
+        .content { max-width: 600px; margin: 3rem auto; padding: 0 2rem; }
+        .content h2 { margin-bottom: 1rem; color: #2c3e50; text-align: center; }
+        form label { display: block; margin-bottom: 0.3rem; font-weight: 600; color: #2c3e50; }
+        form input, form textarea { width: 100%; padding: 0.7rem; margin-bottom: 1.2rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        form textarea { resize: vertical; min-height: 120px; }
+        form button { background: #3498db; color: #fff; border: none; padding: 0.8rem 2rem; font-size: 1rem; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
+        form button:hover { background: #2c3e50; }
+        footer { background: #2c3e50; color: #ecf0f1; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Nidam</a>
+        <div class="links">
+            <a href="index.html">Accueil</a>
+            <a href="about.html">A propos</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+    <section class="page-header">
+        <h1>Contact</h1>
+    </section>
+    <section class="content">
+        <h2>Envoyez-nous un message</h2>
+        <form action="#" method="post">
+            <label for="name">Nom</label>
+            <input type="text" id="name" name="name" placeholder="Votre nom" required>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="votre@email.com" required>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+    </section>
+    <footer>
+        <p>&copy; 2026 Nidam. Tous droits reserves.</p>
+    </footer>
+</body>
+</html>
