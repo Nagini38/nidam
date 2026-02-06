@@ -3,52 +3,488 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nidam - Contact</title>
+    <title>Contact - Nidam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; }
-        nav { background: #2c3e50; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        nav .logo { color: #fff; font-size: 1.5rem; font-weight: bold; text-decoration: none; }
-        nav .links a { color: #ecf0f1; text-decoration: none; margin-left: 1.5rem; transition: color 0.3s; }
-        nav .links a:hover { color: #3498db; }
-        .page-header { background: linear-gradient(135deg, #3498db, #2c3e50); color: #fff; text-align: center; padding: 4rem 2rem; }
-        .page-header h1 { font-size: 2.5rem; }
-        .content { max-width: 600px; margin: 3rem auto; padding: 0 2rem; }
-        .content h2 { margin-bottom: 1rem; color: #2c3e50; text-align: center; }
-        form label { display: block; margin-bottom: 0.3rem; font-weight: 600; color: #2c3e50; }
-        form input, form textarea { width: 100%; padding: 0.7rem; margin-bottom: 1.2rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
-        form textarea { resize: vertical; min-height: 120px; }
-        form button { background: #3498db; color: #fff; border: none; padding: 0.8rem 2rem; font-size: 1rem; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
-        form button:hover { background: #2c3e50; }
-        footer { background: #2c3e50; color: #ecf0f1; text-align: center; padding: 1.5rem; margin-top: 3rem; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #F8F6F1;
+            --charcoal: #2C2C2C;
+            --accent: #8B7355;
+            --light-accent: #C4B5A0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(44, 44, 44, 0.1);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 4rem 5%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--light-accent) 100%);
+        }
+
+        .page-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: rgba(44, 44, 44, 0.7);
+            font-weight: 300;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-info h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: var(--accent);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--accent);
+            min-width: 30px;
+        }
+
+        .info-content h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .info-content p {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: rgba(44, 44, 44, 0.7);
+        }
+
+        .info-content a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-content a:hover {
+            color: var(--charcoal);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-form h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: var(--charcoal);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(44, 44, 44, 0.2);
+            border-radius: 2px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            background: var(--cream);
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: white;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        .form-submit:hover {
+            background: var(--charcoal);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 44, 44, 0.4);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Map Section */
+        .map-section {
+            margin: 4rem 5%;
+            padding: 2rem;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .map-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--charcoal);
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--light-accent) 0%, var(--cream) 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Montserrat', sans-serif;
+            color: rgba(44, 44, 44, 0.5);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 4rem 5%;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--light-accent);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
     <nav>
         <a href="index.html" class="logo">Nidam</a>
-        <div class="links">
-            <a href="index.html">Accueil</a>
-            <a href="about.html">A propos</a>
-            <a href="contact.html">Contact</a>
-        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="galerie.html">Galerie</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
     </nav>
+
+    <!-- Page Header -->
     <section class="page-header">
-        <h1>Contact</h1>
+        <h1>Réservez votre séjour</h1>
+        <p>Note 4.95/5 ⭐ · 187 avis · Coup de cœur voyageurs</p>
     </section>
-    <section class="content">
-        <h2>Envoyez-nous un message</h2>
-        <form action="#" method="post">
-            <label for="name">Nom</label>
-            <input type="text" id="name" name="name" placeholder="Votre nom" required>
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="votre@email.com" required>
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Votre message..." required></textarea>
-            <button type="submit">Envoyer</button>
-        </form>
+
+    <!-- Contact Section -->
+    <div class="contact-container">
+        <!-- Contact Info -->
+        <div class="contact-info">
+            <h2>Informations</h2>
+            
+            <div class="info-item">
+                <div class="info-icon">📍</div>
+                <div class="info-content">
+                    <h3>Adresse</h3>
+                    <p>51 Impasse des 3 Fontaines<br>38850 Bilieu<br>Auvergne-Rhône-Alpes, France</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">📧</div>
+                <div class="info-content">
+                    <h3>Réservation</h3>
+                    <p>Via <a href="https://www.airbnb.com/rooms/49770413" target="_blank">Airbnb</a><br>ou <a href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank">Gîtes de France</a></p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">⭐</div>
+                <div class="info-content">
+                    <h3>Évaluations</h3>
+                    <p>Note : 4.95/5 ⭐<br>187 commentaires<br>Coup de cœur voyageurs - Top 5%</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">🕐</div>
+                <div class="info-content">
+                    <h3>Horaires</h3>
+                    <p>Arrivée : après 16h00<br>Départ : avant 11h00<br>Horaires flexibles sur demande</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">👥</div>
+                <div class="info-content">
+                    <h3>Vos hôtes</h3>
+                    <p>Guillaume & Habiba<br>Superhôtes depuis 5 ans<br>Taux de réponse : 100%<br>Réponse en moins d'une heure</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+            <h2>Réserver sur Airbnb</h2>
+            <p style="margin-bottom: 2rem; color: rgba(44, 44, 44, 0.7);">Pour réserver ou poser une question, rendez-vous directement sur notre annonce Airbnb où Guillaume et Habiba vous répondront en moins d'une heure.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <a href="https://www.airbnb.com/rooms/49770413" target="_blank" style="display: block; padding: 1.5rem; background: var(--accent); color: white; text-decoration: none; text-align: center; border-radius: 4px; font-weight: 400; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);">
+                    📱 Réserver sur Airbnb
+                </a>
+                
+                <a href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank" style="display: block; padding: 1.5rem; background: white; color: var(--charcoal); text-decoration: none; text-align: center; border-radius: 4px; font-weight: 400; letter-spacing: 1px; border: 2px solid var(--accent); transition: all 0.3s ease;">
+                    🏡 Voir sur Gîtes de France
+                </a>
+            </div>
+
+            <div style="margin-top: 2rem; padding: 1.5rem; background: var(--cream); border-radius: 4px;">
+                <h3 style="font-family: 'Montserrat', sans-serif; font-size: 0.9rem; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem;">Informations pratiques</h3>
+                <ul style="list-style: none; padding: 0; font-size: 0.95rem; line-height: 1.8; color: rgba(44, 44, 44, 0.8);">
+                    <li>✓ Wifi rapide 220 Mbps</li>
+                    <li>✓ Parking gratuit pour 3 véhicules</li>
+                    <li>✓ Ménage, draps et serviettes inclus</li>
+                    <li>✓ Carte d'accès au lac fournie</li>
+                    <li>✓ Arrivée autonome avec boîte à clés</li>
+                    <li>✓ 6 voyageurs maximum</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <h2>Situation géographique</h2>
+        <div class="map-placeholder">
+            <p>🗺️ Lac de Paladru - Hauteurs de Bilieu</p>
+        </div>
     </section>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Nidam. Tous droits reserves.</p>
+        <div class="footer-content">
+            <div class="footer-logo">Nidam</div>
+            <ul class="footer-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="galerie.html">Galerie</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
     </footer>
+
+    <script>
+        // Hover effects pour les boutons
+        document.querySelectorAll('a[href*="airbnb"], a[href*="gites"]').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 6px 20px rgba(139, 115, 85, 0.4)';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
+        });
+    </script>
 </body>
 </html>
