@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nidam - Accueil</title>
+    <title>Galerie - Nidam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
             line-height: 1.6;
         }
 
-        /* Navigation - Fixed cream bar with blur */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -41,7 +41,6 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid rgba(184, 149, 106, 0.2);
-            transition: all 0.3s ease;
         }
         .logo {
             font-family: 'Cormorant Garamond', serif;
@@ -77,131 +76,48 @@
             background: var(--gold);
             transition: width 0.3s ease;
         }
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
 
-        /* Hero - Full viewport image */
-        .hero {
+        /* Page Header */
+        .page-header {
             margin-top: 60px;
-            height: 90vh;
-            position: relative;
-            overflow: hidden;
-        }
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            animation: slowZoom 20s ease-in-out infinite alternate;
-        }
-        @keyframes slowZoom {
-            from { transform: scale(1); }
-            to { transform: scale(1.05); }
-        }
-        .hero-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 60%, transparent 100%);
-            padding: 6rem 5% 4rem;
-            color: white;
-        }
-        .hero-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 4.5rem;
-            font-weight: 300;
-            letter-spacing: 4px;
-            animation: fadeUp 1s ease-out 0.3s both;
-        }
-        .hero-subtitle {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            font-size: 1rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-top: 1rem;
-            color: rgba(255,255,255,0.8);
-            animation: fadeUp 1s ease-out 0.5s both;
-        }
-        .hero-separator {
-            width: 60px;
-            height: 1px;
-            background: var(--gold);
-            margin-top: 1.5rem;
-            animation: fadeUp 1s ease-out 0.6s both;
-        }
-        .rating-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 0.6rem 1.5rem;
-            font-size: 0.85rem;
-            font-weight: 300;
-            color: white;
-            margin-top: 1.5rem;
-            letter-spacing: 1px;
-            animation: fadeUp 1s ease-out 0.7s both;
-        }
-        .rating-badge span {
-            color: #F0C75E;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Intro Section */
-        .intro {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 6rem 5%;
+            padding: 5rem 5% 4rem;
             text-align: center;
+            background: var(--cream);
+            border-bottom: 1px solid var(--stone);
         }
-        .intro h2 {
+        .page-header h1 {
             font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
             font-weight: 300;
-            font-size: 2.8rem;
+            letter-spacing: 3px;
             color: var(--charcoal);
-            letter-spacing: 2px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
-        .intro .separator {
+        .page-header .separator {
             width: 50px;
             height: 1px;
             background: var(--gold);
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 1.2rem;
         }
-        .intro p {
-            font-size: 1.05rem;
-            line-height: 2;
+        .page-header p {
+            font-size: 0.95rem;
             color: var(--text-muted);
             font-weight: 300;
-            margin-bottom: 1.5rem;
-        }
-        .intro p:first-of-type::first-letter {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
-            line-height: 1;
-            float: left;
-            margin-right: 0.5rem;
-            margin-top: 0.1rem;
-            color: var(--gold);
+            letter-spacing: 1px;
         }
 
-        /* Gallery Preview */
-        .gallery-preview {
-            padding: 0 5% 4rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
+        /* Gallery Grid */
+        .gallery-container {
+            padding: 4rem 5%;
             max-width: 1400px;
             margin: 0 auto;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
         }
         .gallery-item {
             position: relative;
@@ -227,29 +143,6 @@
         }
         .gallery-item:hover::after {
             background: rgba(45, 41, 38, 0.1);
-        }
-
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: 2rem 5% 5rem;
-        }
-        .cta-btn {
-            display: inline-block;
-            padding: 1rem 3rem;
-            border: 1px solid var(--charcoal);
-            color: var(--charcoal);
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 300;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            transition: all 0.4s ease;
-        }
-        .cta-btn:hover {
-            background: var(--charcoal);
-            color: var(--warm-white);
         }
 
         /* Lightbox */
@@ -309,9 +202,7 @@
             justify-content: center;
             transition: all 0.3s ease;
         }
-        .lightbox-nav:hover {
-            background: rgba(255,255,255,0.15);
-        }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.15); }
         .lightbox-prev { left: 2rem; }
         .lightbox-next { right: 2rem; }
         .lightbox-counter {
@@ -331,6 +222,7 @@
             background: var(--charcoal);
             color: rgba(255,255,255,0.5);
             padding: 4rem 5%;
+            margin-top: 4rem;
         }
         .footer-content {
             max-width: 1200px;
@@ -359,41 +251,17 @@
             text-transform: uppercase;
             transition: color 0.3s ease;
         }
-        .footer-links a:hover {
-            color: var(--gold);
-        }
+        .footer-links a:hover { color: var(--gold); }
 
-        /* Scroll top */
-        .scroll-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 45px;
-            height: 45px;
-            background: var(--gold);
-            color: white;
-            border: none;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-        }
-        .scroll-top.visible { opacity: 1; }
-        .scroll-top:hover { transform: translateY(-3px); background: var(--charcoal); }
-
-        /* Responsive */
         @media (max-width: 768px) {
             .nav-links { gap: 1.5rem; }
             .nav-links a { font-size: 0.7rem; letter-spacing: 1px; }
-            .hero-title { font-size: 2.8rem; }
-            .hero-subtitle { font-size: 0.8rem; }
-            .gallery-preview { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 2.5rem; }
+            .gallery-grid { grid-template-columns: 1fr; }
             .footer-content { flex-direction: column; gap: 2rem; text-align: center; }
-            .intro h2 { font-size: 2.2rem; }
+            .lightbox-nav { width: 45px; height: 45px; font-size: 1.2rem; }
+            .lightbox-prev { left: 1rem; }
+            .lightbox-next { right: 1rem; }
         }
     </style>
 </head>
@@ -408,60 +276,54 @@
         </ul>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <img src="https://a0.muscache.com/im/pictures/ce526b31-07d8-41a5-ae85-1c4f5d3c4294.jpg?aki_policy=xx_large" alt="Nidam" class="hero-image">
-        <div class="hero-overlay">
-            <h1 class="hero-title">Nidam</h1>
-            <p class="hero-subtitle">Lac de Paladru · Bilieu · Auvergne-Rhône-Alpes</p>
-            <div class="hero-separator"></div>
-            <div class="rating-badge">
-                <span>★</span> 4.95 · 187 avis · Coup de cœur voyageurs
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Galerie Photos</h1>
+        <div class="separator"></div>
+        <p>12 photos · Découvrez tous les espaces de notre villa au lac de Paladru</p>
+    </section>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-container">
+        <div class="gallery-grid">
+            <div class="gallery-item" data-index="0">
+                <img src="https://a0.muscache.com/im/pictures/ce526b31-07d8-41a5-ae85-1c4f5d3c4294.jpg?aki_policy=xx_large" alt="Vue principale de la villa Nidam">
+            </div>
+            <div class="gallery-item" data-index="1">
+                <img src="https://a0.muscache.com/im/pictures/eff396fd-edcd-4806-8bce-57331f722de0.jpg?aki_policy=xx_large" alt="Villa vue d'ensemble">
+            </div>
+            <div class="gallery-item" data-index="2">
+                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NDk3NzA0MTM%3D/original/2e38a0f8-f043-413b-88d6-e9ba2354ac91.jpeg?aki_policy=xx_large" alt="Spa privatif 6 places">
+            </div>
+            <div class="gallery-item" data-index="3">
+                <img src="https://a0.muscache.com/im/pictures/1757e02b-e8e9-4d9a-a302-90719e342631.jpg?aki_policy=xx_large" alt="Vue nocturne avec éclairage">
+            </div>
+            <div class="gallery-item" data-index="4">
+                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NDk3NzA0MTM%3D/original/64718c90-7e43-42e4-bd2c-002711046b0f.jpeg?aki_policy=xx_large" alt="Terrasse extérieure">
+            </div>
+            <div class="gallery-item" data-index="5">
+                <img src="https://a0.muscache.com/im/pictures/d8002c3e-8403-4665-812c-1a492c08e844.jpg?aki_policy=xx_large" alt="Chambre principale avec lit queen size">
+            </div>
+            <div class="gallery-item" data-index="6">
+                <img src="https://a0.muscache.com/im/pictures/c24ff741-dc57-4da6-8487-0e153590025a.jpg?aki_policy=xx_large" alt="Chambre 2 avec lit queen size">
+            </div>
+            <div class="gallery-item" data-index="7">
+                <img src="https://a0.muscache.com/im/pictures/89bd8afc-0fac-4083-97c0-364c05ba3ba5.jpg?aki_policy=xx_large" alt="Chambre 3 avec lits superposés">
+            </div>
+            <div class="gallery-item" data-index="8">
+                <img src="https://a0.muscache.com/im/pictures/05d92282-9f13-4632-bd89-a07bb0835c0d.jpg?aki_policy=xx_large" alt="Jardin et espaces verts">
+            </div>
+            <div class="gallery-item" data-index="9">
+                <img src="https://a0.muscache.com/im/pictures/fc7b92ab-3dd2-4fa3-80ff-14cba8858b44.jpg?aki_policy=xx_large" alt="Salon spacieux">
+            </div>
+            <div class="gallery-item" data-index="10">
+                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NDk3NzA0MTM%3D/original/5ffd9676-1243-4511-8782-a3e7345b39f9.jpeg?aki_policy=xx_large" alt="Espace détente intérieur">
+            </div>
+            <div class="gallery-item" data-index="11">
+                <img src="https://a0.muscache.com/im/pictures/58f01b10-5fd7-46f4-8fc5-6405096163ef.jpg?aki_policy=xx_large" alt="Vue panoramique sur la vallée">
             </div>
         </div>
-    </section>
-
-    <!-- Introduction -->
-    <section class="intro">
-        <h2>Bienvenue</h2>
-        <div class="separator"></div>
-        <p>
-            Perchée dans les hauteurs de Bilieu, au bord du magnifique lac de Paladru, cette demeure vous offre une expérience unique alliant détente et nature. Avec son spa privatif 6 places et ses 100m² d'espace de vie soigneusement aménagés, c'est le refuge idéal pour se ressourcer en famille ou entre amis.
-        </p>
-        <p>
-            Le logement comprend une cuisine entièrement équipée, un salon spacieux avec canapé d'angle convertible, une salle à manger conviviale et trois chambres dont une avec salle de bain privative. Une seconde salle de bain avec douche et baignoire ainsi qu'un toilette séparé complètent cet ensemble pensé pour votre confort. Chaque espace a été conçu pour créer une atmosphère chaleureuse et accueillante.
-        </p>
-        <p>
-            À l'extérieur, profitez d'un jardin clos avec terrasse aménagée, table extérieure et plancha à gaz pour vos repas en plein air. Une carte d'accès au lac est mise à disposition dans le logement pour vos moments de baignade et de détente au bord de l'eau. Trois places de stationnement sont disponibles sur place. Le ménage, les draps et les serviettes sont inclus dans votre location pour un séjour en toute sérénité.
-        </p>
-    </section>
-
-    <!-- Gallery Preview -->
-    <section class="gallery-preview">
-        <div class="gallery-item" data-index="0">
-            <img src="https://a0.muscache.com/im/pictures/1757e02b-e8e9-4d9a-a302-90719e342631.jpg?aki_policy=xx_large" alt="Vue principale">
-        </div>
-        <div class="gallery-item" data-index="1">
-            <img src="https://a0.muscache.com/im/pictures/05d92282-9f13-4632-bd89-a07bb0835c0d.jpg?aki_policy=xx_large" alt="Extérieur">
-        </div>
-        <div class="gallery-item" data-index="2">
-            <img src="https://a0.muscache.com/im/pictures/d8002c3e-8403-4665-812c-1a492c08e844.jpg?aki_policy=xx_large" alt="Terrasse">
-        </div>
-        <div class="gallery-item" data-index="3">
-            <img src="https://a0.muscache.com/im/pictures/fc7b92ab-3dd2-4fa3-80ff-14cba8858b44.jpg?aki_policy=xx_large" alt="Piscine">
-        </div>
-        <div class="gallery-item" data-index="4">
-            <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NDk3NzA0MTM%3D/original/5ffd9676-1243-4511-8782-a3e7345b39f9.jpeg?aki_policy=xx_large" alt="Jardin">
-        </div>
-        <div class="gallery-item" data-index="5">
-            <img src="https://a0.muscache.com/im/pictures/58f01b10-5fd7-46f4-8fc5-6405096163ef.jpg?aki_policy=xx_large" alt="Vue panoramique">
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-section">
-        <a href="galerie-luxe.html" class="cta-btn">Voir toutes les photos</a>
-    </section>
+    </div>
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
@@ -486,28 +348,7 @@
         </div>
     </footer>
 
-    <!-- Scroll to top -->
-    <button class="scroll-top" id="scrollTop">↑</button>
-
     <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
-
-        // Scroll to top button
-        const scrollTopBtn = document.getElementById('scrollTop');
-        window.addEventListener('scroll', () => {
-            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 300);
-        });
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
         // Lightbox
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
