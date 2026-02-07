@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Logement - Nidam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #F8F6F1;
+            --charcoal: #2C2C2C;
+            --accent: #8B7355;
+            --light-accent: #C4B5A0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(44, 44, 44, 0.1);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--charcoal);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 4rem 5%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--light-accent) 100%);
+        }
+
+        .page-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: rgba(44, 44, 44, 0.7);
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Intro */
+        .intro {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 5% 3rem;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .intro p {
+            font-size: 1.15rem;
+            line-height: 2;
+            font-weight: 300;
+            color: rgba(44, 44, 44, 0.8);
+        }
+
+        .intro p:first-of-type::first-letter {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            line-height: 1;
+            float: left;
+            margin-right: 0.5rem;
+            color: var(--accent);
+        }
+
+        /* Room Cards */
+        .rooms-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 5% 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .room-card {
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: fadeInScale 0.6s ease-out both;
+        }
+
+        .room-card:nth-child(1) { animation-delay: 0.1s; }
+        .room-card:nth-child(2) { animation-delay: 0.2s; }
+        .room-card:nth-child(3) { animation-delay: 0.3s; }
+        .room-card:nth-child(4) { animation-delay: 0.4s; }
+        .room-card:nth-child(5) { animation-delay: 0.5s; }
+        .room-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .room-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .room-card-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            overflow: hidden;
+        }
+
+        .room-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .room-card:hover .room-card-image img {
+            transform: scale(1.08);
+        }
+
+        .room-card-content {
+            padding: 2rem;
+        }
+
+        .room-card-content h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 0.8rem;
+            color: var(--charcoal);
+        }
+
+        .room-card-content p {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: rgba(44, 44, 44, 0.7);
+            line-height: 1.8;
+        }
+
+        .room-tag {
+            display: inline-block;
+            background: var(--cream);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            margin-top: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            background: white;
+            padding: 5rem 5%;
+            margin-top: 2rem;
+        }
+
+        .features-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.8rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--charcoal);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            border: 1px solid rgba(44, 44, 44, 0.08);
+            border-radius: 4px;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .feature-item p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(44, 44, 44, 0.6);
+            line-height: 1.6;
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 5%;
+        }
+
+        .cta-section h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: rgba(44, 44, 44, 0.7);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        .cta-btn:hover {
+            background: var(--charcoal);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 44, 44, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 4rem 5%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--light-accent);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { gap: 1.2rem; font-size: 0.75rem; }
+            .page-header h1 { font-size: 2.5rem; }
+            .rooms-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr 1fr; }
+            .footer-content { flex-direction: column; gap: 2rem; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links { gap: 0.8rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Nidam</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="logement.html" class="active">Logement</a></li>
+            <li><a href="bien-etre.html">Bien-etre</a></li>
+            <li><a href="decouvrir.html">Region</a></li>
+            <li><a href="galerie.html">Galerie</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="page-header">
+        <h1>Le Logement</h1>
+        <p>100m2 d'espace de vie et 3 chambres au coeur des hauteurs de Bilieu, au bord du lac de Paladru</p>
+    </section>
+
+    <section class="intro">
+        <p>
+            Nidam est un gite de charme de 100m2, idealement situe dans les hauteurs de Bilieu, offrant une vue imprenable sur la vallee et un acces privilegie au lac de Paladru. Chaque espace a ete soigneusement amenage pour creer une atmosphere chaleureuse et accueillante, melant confort moderne et douceur de vivre. Pouvant accueillir jusqu'a 6 voyageurs, c'est le refuge ideal pour se ressourcer en famille ou entre amis.
+        </p>
+    </section>
+
+    <div class="rooms-grid">
+        <div class="room-card">
+            <div class="room-card-image">
+                <img src="https://a0.muscache.com/im/pictures/d8002c3e-8403-4665-812c-1a492c08e844.jpg?aki_policy=xx_large" alt="Chambre principale">
+            </div>
+            <div class="room-card-content">
+                <h3>Chambre principale</h3>
+                <p>Spacieuse chambre avec lit queen size et salle de bain privative attenante. Un espace intime et confortable pour des nuits paisibles.</p>
+                <span class="room-tag">Salle de bain privee</span>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-card-image">
+                <img src="https://a0.muscache.com/im/pictures/c24ff741-dc57-4da6-8487-0e153590025a.jpg?aki_policy=xx_large" alt="Chambre 2">
+            </div>
+            <div class="room-card-content">
+                <h3>Chambre Confort</h3>
+                <p>Deuxieme chambre avec lit queen size, decoration soignee et vue sur le jardin. Un cadre reposant pour profiter pleinement de votre sejour.</p>
+                <span class="room-tag">Lit queen size</span>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-card-image">
+                <img src="https://a0.muscache.com/im/pictures/89bd8afc-0fac-4083-97c0-364c05ba3ba5.jpg?aki_policy=xx_large" alt="Chambre 3">
+            </div>
+            <div class="room-card-content">
+                <h3>Chambre Famille</h3>
+                <p>Chambre ideale pour les enfants avec lits superposes, amenagee de maniere ludique et pratique pour le plaisir des petits comme des grands.</p>
+                <span class="room-tag">Lits superposes</span>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-card-image">
+                <img src="https://a0.muscache.com/im/pictures/fc7b92ab-3dd2-4fa3-80ff-14cba8858b44.jpg?aki_policy=xx_large" alt="Salon">
+            </div>
+            <div class="room-card-content">
+                <h3>Le Salon</h3>
+                <p>Vaste salon avec canape d'angle convertible, parfait pour les moments de convivialite. Un espace lumineux et chaleureux au coeur du logement.</p>
+                <span class="room-tag">Canape convertible</span>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-card-image">
+                <img src="https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6NDk3NzA0MTM%3D/original/64718c90-7e43-42e4-bd2c-002711046b0f.jpeg?aki_policy=xx_large" alt="Cuisine et salle a manger">
+            </div>
+            <div class="room-card-content">
+                <h3>Cuisine & Salle a manger</h3>
+                <p>Cuisine entierement equipee ouverte sur une salle a manger conviviale. Tout le necessaire pour preparer de bons repas en famille.</p>
+                <span class="room-tag">Entierement equipee</span>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-card-image">
+                <img src="https://a0.muscache.com/im/pictures/eff396fd-edcd-4806-8bce-57331f722de0.jpg?aki_policy=xx_large" alt="Salle de bain">
+            </div>
+            <div class="room-card-content">
+                <h3>Les Salles de bain</h3>
+                <p>Deux salles de bain dont une avec douche et baignoire, et un toilette separe. Des espaces fonctionnels et soignes pour votre confort quotidien.</p>
+                <span class="room-tag">Douche & baignoire</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="features">
+        <div class="features-inner">
+            <h2>Les equipements</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">&#x1F6CF;</div>
+                    <h4>3 Chambres</h4>
+                    <p>Jusqu'a 6 voyageurs, draps et serviettes inclus</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">&#x1F4F6;</div>
+                    <h4>Wifi 220 Mbps</h4>
+                    <p>Connexion haut debit dans tout le logement</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">&#x1F697;</div>
+                    <h4>Parking gratuit</h4>
+                    <p>3 places de stationnement sur place</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">&#x1F3E0;</div>
+                    <h4>100m2</h4>
+                    <p>Espace de vie spacieux et lumineux</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">&#x1F9F9;</div>
+                    <h4>Menage inclus</h4>
+                    <p>Logement propre a votre arrivee et depart</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">&#x1F510;</div>
+                    <h4>Arrivee autonome</h4>
+                    <p>Boite a cles securisee, horaires flexibles</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">&#x1F4FA;</div>
+                    <h4>Multimedia</h4>
+                    <p>TV connectee, enceinte Bluetooth</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">&#x2744;</div>
+                    <h4>Climatisation</h4>
+                    <p>Chauffage et ventilation dans chaque piece</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Reservez votre sejour</h2>
+        <p>Note 4.95/5 avec 187 avis. Coup de coeur voyageurs - Top 5% des logements sur Airbnb.</p>
+        <a href="https://www.airbnb.com/rooms/49770413" target="_blank" class="cta-btn">Reserver sur Airbnb</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Nidam</div>
+            <ul class="footer-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="logement.html">Logement</a></li>
+                <li><a href="bien-etre.html">Bien-etre</a></li>
+                <li><a href="decouvrir.html">Region</a></li>
+                <li><a href="galerie.html">Galerie</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
