@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - Nidam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream: #F5F0EB;
+            --warm-white: #FAF8F5;
+            --charcoal: #2D2926;
+            --gold: #B8956A;
+            --gold-light: #D4C4A8;
+            --text-muted: #7A7067;
+            --stone: #E8E0D6;
+            --success: #4a8c6f;
+            --danger: #c0392b;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            color: var(--charcoal);
+            background-color: var(--warm-white);
+            line-height: 1.6;
+        }
+
+        /* ============ LOGIN SCREEN ============ */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: var(--cream);
+        }
+
+        .login-box {
+            background: white;
+            border: 1px solid var(--stone);
+            padding: 3.5rem 3rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        .login-box h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-box .separator {
+            width: 50px;
+            height: 1px;
+            background: var(--gold);
+            margin: 1rem auto 1.5rem;
+        }
+
+        .login-box p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .login-field {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 1px solid var(--stone);
+            background: var(--warm-white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .login-field:focus {
+            border-color: var(--gold);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--charcoal);
+            color: white;
+            border: 1px solid var(--charcoal);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .login-error {
+            color: var(--danger);
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* ============ ADMIN PANEL ============ */
+        .admin-panel {
+            display: none;
+        }
+
+        /* Navigation */
+        .admin-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--charcoal);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-nav .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .admin-nav .logo span {
+            color: var(--gold);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-left: 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .admin-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .admin-nav-right a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .admin-nav-right a:hover {
+            color: var(--gold);
+        }
+
+        .btn-logout {
+            padding: 0.5rem 1.2rem;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.7);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        /* Tabs */
+        .admin-tabs {
+            margin-top: 62px;
+            background: var(--cream);
+            border-bottom: 1px solid var(--stone);
+            display: flex;
+            justify-content: center;
+            gap: 0;
+        }
+
+        .admin-tab {
+            padding: 1.2rem 2.5rem;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-tab:hover {
+            color: var(--charcoal);
+        }
+
+        .admin-tab.active {
+            color: var(--charcoal);
+            border-bottom-color: var(--gold);
+        }
+
+        /* Content panels */
+        .admin-content {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 5% 4rem;
+        }
+
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Form groups */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 1px solid var(--stone);
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--gold);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+        }
+
+        /* Image editor */
+        .image-editor {
+            background: white;
+            border: 1px solid var(--stone);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .image-editor img {
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .image-editor-fields {
+            flex: 1;
+        }
+
+        .image-editor-fields input {
+            width: 100%;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--stone);
+            background: var(--warm-white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            outline: none;
+            margin-bottom: 0.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .image-editor-fields input:focus {
+            border-color: var(--gold);
+        }
+
+        .image-editor-fields label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .btn-remove-image {
+            padding: 0.4rem 0.8rem;
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s;
+            margin-top: 0.3rem;
+        }
+
+        .btn-remove-image:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn-add {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border: 1px dashed var(--gold);
+            background: transparent;
+            color: var(--gold);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .btn-add:hover {
+            background: var(--gold);
+            color: white;
+            border-style: solid;
+        }
+
+        .btn-save {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--charcoal);
+            color: white;
+            border: 1px solid var(--charcoal);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-right: 1rem;
+        }
+
+        .btn-save:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .btn-reset {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--stone);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .actions-bar {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--stone);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            background: var(--charcoal);
+            color: white;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 9999;
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Divider */
+        .form-divider {
+            border: none;
+            border-top: 1px solid var(--stone);
+            margin: 2.5rem 0;
+        }
+
+        /* Password change section */
+        .password-section {
+            background: white;
+            border: 1px solid var(--stone);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .password-section h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-tabs {
+                flex-wrap: wrap;
+            }
+            .admin-tab {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.7rem;
+            }
+            .image-editor {
+                flex-direction: column;
+            }
+            .image-editor img {
+                width: 100%;
+                height: 150px;
+            }
+            .actions-bar {
+                flex-direction: column;
+            }
+            .btn-save, .btn-reset {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <h1>Nidam</h1>
+        <div class="separator"></div>
+        <p>Espace administrateur</p>
+        <input type="password" class="login-field" id="loginPassword" placeholder="Mot de passe" autocomplete="current-password">
+        <button class="login-btn" id="loginBtn">Connexion</button>
+        <p class="login-error" id="loginError">Mot de passe incorrect</p>
+    </div>
+</div>
+
+<!-- ============ ADMIN PANEL ============ -->
+<div class="admin-panel" id="adminPanel">
+
+    <!-- Navigation -->
+    <nav class="admin-nav">
+        <a href="index-luxe.html" class="logo">Nidam <span>Administration</span></a>
+        <div class="admin-nav-right">
+            <a href="index-luxe.html">Voir le site</a>
+            <button class="btn-logout" id="logoutBtn">Déconnexion</button>
+        </div>
+    </nav>
+
+    <!-- Tabs -->
+    <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="home">Accueil</button>
+        <button class="admin-tab" data-tab="gallery">Galerie</button>
+        <button class="admin-tab" data-tab="contact">Contact</button>
+        <button class="admin-tab" data-tab="settings">Paramètres</button>
+    </div>
+
+    <!-- Content -->
+    <div class="admin-content">
+
+        <!-- ===== TAB ACCUEIL ===== -->
+        <div class="admin-section active" id="tab-home">
+            <h2 class="section-title">Page d'accueil</h2>
+            <p class="section-desc">Modifiez les textes et images de la page principale</p>
+
+            <div class="form-group">
+                <label>Image hero (URL)</label>
+                <input type="url" id="edit-hero_image" placeholder="URL de l'image principale">
+            </div>
+
+            <div class="form-group">
+                <label>Titre principal</label>
+                <input type="text" id="edit-hero_title" placeholder="Titre du hero">
+            </div>
+
+            <div class="form-group">
+                <label>Sous-titre</label>
+                <input type="text" id="edit-hero_subtitle" placeholder="Sous-titre du hero">
+            </div>
+
+            <div class="form-group">
+                <label>Badge note (HTML autorisé)</label>
+                <input type="text" id="edit-hero_rating" placeholder="Ex: ★ 4.95 · 187 avis">
+            </div>
+
+            <hr class="form-divider">
+
+            <div class="form-group">
+                <label>Titre section introduction</label>
+                <input type="text" id="edit-intro_title" placeholder="Titre introduction">
+            </div>
+
+            <div class="form-group">
+                <label>Paragraphe 1</label>
+                <textarea id="edit-intro_p1" placeholder="Premier paragraphe"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Paragraphe 2</label>
+                <textarea id="edit-intro_p2" placeholder="Deuxième paragraphe"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Paragraphe 3</label>
+                <textarea id="edit-intro_p3" placeholder="Troisième paragraphe"></textarea>
+            </div>
+
+            <hr class="form-divider">
+
+            <h3 class="section-title" style="font-size:1.5rem;">Images aperçu (page accueil)</h3>
+            <p class="section-desc">Ces images apparaissent sur la page d'accueil en aperçu</p>
+            <div id="home-gallery-editor"></div>
+            <button class="btn-add" id="btn-add-home-image">+ Ajouter une image</button>
+
+            <div class="actions-bar">
+                <button class="btn-save" id="save-home">Enregistrer</button>
+                <button class="btn-reset" data-reset="home">Réinitialiser</button>
+            </div>
+        </div>
+
+        <!-- ===== TAB GALERIE ===== -->
+        <div class="admin-section" id="tab-gallery">
+            <h2 class="section-title">Page Galerie</h2>
+            <p class="section-desc">Gérez les photos de la galerie complète</p>
+
+            <div class="form-group">
+                <label>Titre de la page</label>
+                <input type="text" id="edit-gallery_title" placeholder="Titre galerie">
+            </div>
+
+            <div class="form-group">
+                <label>Sous-titre</label>
+                <input type="text" id="edit-gallery_subtitle" placeholder="Sous-titre galerie">
+            </div>
+
+            <hr class="form-divider">
+
+            <h3 class="section-title" style="font-size:1.5rem;">Photos de la galerie</h3>
+            <p class="section-desc">Ajoutez, modifiez ou supprimez les photos</p>
+            <div id="gallery-images-editor"></div>
+            <button class="btn-add" id="btn-add-gallery-image">+ Ajouter une photo</button>
+
+            <div class="actions-bar">
+                <button class="btn-save" id="save-gallery">Enregistrer</button>
+                <button class="btn-reset" data-reset="gallery">Réinitialiser</button>
+            </div>
+        </div>
+
+        <!-- ===== TAB CONTACT ===== -->
+        <div class="admin-section" id="tab-contact">
+            <h2 class="section-title">Page Contact</h2>
+            <p class="section-desc">Modifiez les informations de contact et de réservation</p>
+
+            <div class="form-group">
+                <label>Titre de la page</label>
+                <input type="text" id="edit-contact_title" placeholder="Titre contact">
+            </div>
+
+            <div class="form-group">
+                <label>Sous-titre</label>
+                <input type="text" id="edit-contact_subtitle" placeholder="Sous-titre contact">
+            </div>
+
+            <hr class="form-divider">
+
+            <div class="form-group">
+                <label>Adresse (HTML autorisé pour les retours à la ligne avec &lt;br&gt;)</label>
+                <textarea id="edit-contact_address" placeholder="Adresse"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Évaluations</label>
+                <input type="text" id="edit-contact_rating" placeholder="Ex: 4.95/5 · 187 avis">
+            </div>
+
+            <div class="form-group">
+                <label>Horaires (HTML autorisé)</label>
+                <input type="text" id="edit-contact_checkin" placeholder="Ex: Arrivée : 16h<br>Départ : 11h">
+            </div>
+
+            <div class="form-group">
+                <label>Texte section réservation</label>
+                <input type="text" id="edit-contact_booking_text" placeholder="Texte de réservation">
+            </div>
+
+            <div class="form-group">
+                <label>Lien Airbnb</label>
+                <input type="url" id="edit-contact_airbnb_url" placeholder="URL Airbnb">
+            </div>
+
+            <div class="form-group">
+                <label>Lien Gîtes de France</label>
+                <input type="url" id="edit-contact_gites_url" placeholder="URL Gîtes de France">
+            </div>
+
+            <div class="form-group">
+                <label>Titre section carte</label>
+                <input type="text" id="edit-contact_map_title" placeholder="Titre de la carte">
+            </div>
+
+            <div class="actions-bar">
+                <button class="btn-save" id="save-contact">Enregistrer</button>
+                <button class="btn-reset" data-reset="contact">Réinitialiser</button>
+            </div>
+        </div>
+
+        <!-- ===== TAB PARAMETRES ===== -->
+        <div class="admin-section" id="tab-settings">
+            <h2 class="section-title">Paramètres</h2>
+            <p class="section-desc">Changez votre mot de passe administrateur</p>
+
+            <div class="password-section">
+                <h3>Changer le mot de passe</h3>
+                <div class="form-group">
+                    <label>Mot de passe actuel</label>
+                    <input type="password" id="current-password" placeholder="Mot de passe actuel" autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                    <label>Nouveau mot de passe</label>
+                    <input type="password" id="new-password" placeholder="Nouveau mot de passe" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label>Confirmer le nouveau mot de passe</label>
+                    <input type="password" id="confirm-password" placeholder="Confirmer" autocomplete="new-password">
+                </div>
+                <button class="btn-save" id="save-password">Changer le mot de passe</button>
+            </div>
+
+            <div class="actions-bar">
+                <button class="btn-reset" id="reset-all-content">Réinitialiser tout le contenu du site</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="site-content.js"></script>
+<script>
+    // ============ AUTH ============
+    const AUTH_KEY = 'nidam_admin_auth';
+    const PASS_KEY = 'nidam_admin_pass';
+    const DEFAULT_PASS = 'nidam2024';
+
+    function getPassword() {
+        return localStorage.getItem(PASS_KEY) || DEFAULT_PASS;
+    }
+
+    function isLoggedIn() {
+        return sessionStorage.getItem(AUTH_KEY) === 'true';
+    }
+
+    function login(password) {
+        if (password === getPassword()) {
+            sessionStorage.setItem(AUTH_KEY, 'true');
+            return true;
+        }
+        return false;
+    }
+
+    function logout() {
+        sessionStorage.removeItem(AUTH_KEY);
+        location.reload();
+    }
+
+    // ============ TOAST ============
+    function showToast(message, type) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast ' + (type || '') + ' show';
+        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
+    // ============ IMAGE EDITOR HELPERS ============
+    function createImageEditor(img, index, containerId) {
+        const div = document.createElement('div');
+        div.className = 'image-editor';
+        div.dataset.index = index;
+
+        div.innerHTML =
+            '<img src="' + (img.src || '') + '" alt="preview" onerror="this.style.background=\'var(--stone)\';this.alt=\'Image non trouvée\'">' +
+            '<div class="image-editor-fields">' +
+                '<label>URL de l\'image</label>' +
+                '<input type="url" class="img-src" value="' + (img.src || '') + '" placeholder="https://...">' +
+                '<label>Description (alt)</label>' +
+                '<input type="text" class="img-alt" value="' + (img.alt || '') + '" placeholder="Description de l\'image">' +
+                '<button class="btn-remove-image">Supprimer</button>' +
+            '</div>';
+
+        // Preview update on URL change
+        const urlInput = div.querySelector('.img-src');
+        const preview = div.querySelector('img');
+        urlInput.addEventListener('input', function() {
+            preview.src = this.value;
+        });
+
+        // Remove button
+        div.querySelector('.btn-remove-image').addEventListener('click', function() {
+            div.remove();
+        });
+
+        return div;
+    }
+
+    function renderImageEditors(containerId, images) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        images.forEach((img, i) => {
+            container.appendChild(createImageEditor(img, i, containerId));
+        });
+    }
+
+    function collectImages(containerId) {
+        const container = document.getElementById(containerId);
+        const editors = container.querySelectorAll('.image-editor');
+        const images = [];
+        editors.forEach(editor => {
+            const src = editor.querySelector('.img-src').value.trim();
+            const alt = editor.querySelector('.img-alt').value.trim();
+            if (src) {
+                images.push({ src: src, alt: alt });
+            }
+        });
+        return images;
+    }
+
+    // ============ LOAD CONTENT INTO FORMS ============
+    function loadFormData() {
+        const c = SiteContent.load();
+
+        // Simple text fields
+        const fields = [
+            'hero_image', 'hero_title', 'hero_subtitle', 'hero_rating',
+            'intro_title', 'intro_p1', 'intro_p2', 'intro_p3',
+            'gallery_title', 'gallery_subtitle',
+            'contact_title', 'contact_subtitle', 'contact_address',
+            'contact_rating', 'contact_checkin', 'contact_booking_text',
+            'contact_airbnb_url', 'contact_gites_url', 'contact_map_title'
+        ];
+
+        fields.forEach(field => {
+            const el = document.getElementById('edit-' + field);
+            if (el && c[field] !== undefined) {
+                el.value = c[field];
+            }
+        });
+
+        // Image galleries
+        renderImageEditors('home-gallery-editor', c.home_gallery || []);
+        renderImageEditors('gallery-images-editor', c.gallery_images || []);
+    }
+
+    // ============ SAVE FUNCTIONS ============
+    function saveHome() {
+        const c = SiteContent.load();
+        c.hero_image = document.getElementById('edit-hero_image').value.trim();
+        c.hero_title = document.getElementById('edit-hero_title').value.trim();
+        c.hero_subtitle = document.getElementById('edit-hero_subtitle').value.trim();
+        c.hero_rating = document.getElementById('edit-hero_rating').value.trim();
+        c.intro_title = document.getElementById('edit-intro_title').value.trim();
+        c.intro_p1 = document.getElementById('edit-intro_p1').value.trim();
+        c.intro_p2 = document.getElementById('edit-intro_p2').value.trim();
+        c.intro_p3 = document.getElementById('edit-intro_p3').value.trim();
+        c.home_gallery = collectImages('home-gallery-editor');
+        SiteContent.save(c);
+        showToast('Page d\'accueil sauvegardée', 'success');
+    }
+
+    function saveGallery() {
+        const c = SiteContent.load();
+        c.gallery_title = document.getElementById('edit-gallery_title').value.trim();
+        c.gallery_subtitle = document.getElementById('edit-gallery_subtitle').value.trim();
+        c.gallery_images = collectImages('gallery-images-editor');
+        SiteContent.save(c);
+        showToast('Page galerie sauvegardée', 'success');
+    }
+
+    function saveContact() {
+        const c = SiteContent.load();
+        c.contact_title = document.getElementById('edit-contact_title').value.trim();
+        c.contact_subtitle = document.getElementById('edit-contact_subtitle').value.trim();
+        c.contact_address = document.getElementById('edit-contact_address').value.trim();
+        c.contact_rating = document.getElementById('edit-contact_rating').value.trim();
+        c.contact_checkin = document.getElementById('edit-contact_checkin').value.trim();
+        c.contact_booking_text = document.getElementById('edit-contact_booking_text').value.trim();
+        c.contact_airbnb_url = document.getElementById('edit-contact_airbnb_url').value.trim();
+        c.contact_gites_url = document.getElementById('edit-contact_gites_url').value.trim();
+        c.contact_map_title = document.getElementById('edit-contact_map_title').value.trim();
+        SiteContent.save(c);
+        showToast('Page contact sauvegardée', 'success');
+    }
+
+    // ============ INIT ============
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginScreen = document.getElementById('loginScreen');
+        const adminPanel = document.getElementById('adminPanel');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginError = document.getElementById('loginError');
+
+        // Check if already logged in
+        if (isLoggedIn()) {
+            loginScreen.style.display = 'none';
+            adminPanel.style.display = 'block';
+            loadFormData();
+        }
+
+        // Login
+        loginBtn.addEventListener('click', function() {
+            if (login(loginPassword.value)) {
+                loginScreen.style.display = 'none';
+                adminPanel.style.display = 'block';
+                loadFormData();
+            } else {
+                loginError.style.display = 'block';
+                loginPassword.value = '';
+                loginPassword.focus();
+            }
+        });
+
+        loginPassword.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+
+        // Tabs
+        document.querySelectorAll('.admin-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Save buttons
+        document.getElementById('save-home').addEventListener('click', saveHome);
+        document.getElementById('save-gallery').addEventListener('click', saveGallery);
+        document.getElementById('save-contact').addEventListener('click', saveContact);
+
+        // Add image buttons
+        document.getElementById('btn-add-home-image').addEventListener('click', function() {
+            const container = document.getElementById('home-gallery-editor');
+            container.appendChild(createImageEditor({ src: '', alt: '' }, container.children.length, 'home-gallery-editor'));
+        });
+
+        document.getElementById('btn-add-gallery-image').addEventListener('click', function() {
+            const container = document.getElementById('gallery-images-editor');
+            container.appendChild(createImageEditor({ src: '', alt: '' }, container.children.length, 'gallery-images-editor'));
+        });
+
+        // Reset buttons
+        document.querySelectorAll('.btn-reset[data-reset]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const section = this.dataset.reset;
+                if (!confirm('Réinitialiser cette section aux valeurs par défaut ?')) return;
+
+                const c = SiteContent.load();
+                const d = SiteContent.defaults;
+
+                if (section === 'home') {
+                    c.hero_image = d.hero_image;
+                    c.hero_title = d.hero_title;
+                    c.hero_subtitle = d.hero_subtitle;
+                    c.hero_rating = d.hero_rating;
+                    c.intro_title = d.intro_title;
+                    c.intro_p1 = d.intro_p1;
+                    c.intro_p2 = d.intro_p2;
+                    c.intro_p3 = d.intro_p3;
+                    c.home_gallery = [...d.home_gallery];
+                } else if (section === 'gallery') {
+                    c.gallery_title = d.gallery_title;
+                    c.gallery_subtitle = d.gallery_subtitle;
+                    c.gallery_images = [...d.gallery_images];
+                } else if (section === 'contact') {
+                    c.contact_title = d.contact_title;
+                    c.contact_subtitle = d.contact_subtitle;
+                    c.contact_address = d.contact_address;
+                    c.contact_rating = d.contact_rating;
+                    c.contact_checkin = d.contact_checkin;
+                    c.contact_booking_text = d.contact_booking_text;
+                    c.contact_airbnb_url = d.contact_airbnb_url;
+                    c.contact_gites_url = d.contact_gites_url;
+                    c.contact_map_title = d.contact_map_title;
+                }
+
+                SiteContent.save(c);
+                loadFormData();
+                showToast('Section réinitialisée', 'success');
+            });
+        });
+
+        // Reset all content
+        document.getElementById('reset-all-content').addEventListener('click', function() {
+            if (!confirm('Réinitialiser TOUT le contenu du site aux valeurs par défaut ? Cette action est irréversible.')) return;
+            SiteContent.reset();
+            loadFormData();
+            showToast('Tout le contenu a été réinitialisé', 'success');
+        });
+
+        // Change password
+        document.getElementById('save-password').addEventListener('click', function() {
+            const current = document.getElementById('current-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const confirm = document.getElementById('confirm-password').value;
+
+            if (current !== getPassword()) {
+                showToast('Mot de passe actuel incorrect', '');
+                return;
+            }
+            if (newPass.length < 4) {
+                showToast('Le nouveau mot de passe doit contenir au moins 4 caractères', '');
+                return;
+            }
+            if (newPass !== confirm) {
+                showToast('Les mots de passe ne correspondent pas', '');
+                return;
+            }
+
+            localStorage.setItem(PASS_KEY, newPass);
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            showToast('Mot de passe modifié avec succès', 'success');
+        });
+    });
+</script>
+</body>
+</html>
