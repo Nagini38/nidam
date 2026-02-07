@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - Nidam</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -28,7 +30,7 @@
             line-height: 1.6;
         }
 
-        /* Navigation */
+        /* NAVBAR */
         nav {
             position: fixed;
             top: 0;
@@ -42,73 +44,70 @@
             align-items: center;
             border-bottom: 1px solid rgba(184, 149, 106, 0.2);
         }
+
         .logo {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2rem;
-            font-weight: 300;
             letter-spacing: 3px;
-            color: var(--charcoal);
             text-decoration: none;
-            text-transform: uppercase;
+            color: var(--charcoal);
         }
+
         .nav-links {
+            list-style: none;
             display: flex;
             gap: 3rem;
-            list-style: none;
         }
+
         .nav-links a {
-            color: var(--charcoal);
             text-decoration: none;
+            color: var(--charcoal);
             font-size: 0.8rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            font-weight: 300;
             position: relative;
-            transition: color 0.3s ease;
         }
+
         .nav-links a::after {
-            content: '';
+            content: "";
             position: absolute;
             bottom: -4px;
             left: 0;
             width: 0;
             height: 1px;
             background: var(--gold);
-            transition: width 0.3s ease;
+            transition: width 0.3s;
         }
-        .nav-links a:hover { color: var(--gold); }
+
         .nav-links a:hover::after { width: 100%; }
 
-        /* Page Header */
+        /* HEADER */
         .page-header {
-            margin-top: 60px;
-            padding: 5rem 5% 4rem;
-            text-align: center;
+            margin-top: 80px;
+            padding: 5rem 5%;
             background: var(--cream);
+            text-align: center;
             border-bottom: 1px solid var(--stone);
         }
+
         .page-header h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 3.2rem;
-            font-weight: 300;
+            font-size: 3rem;
             letter-spacing: 3px;
-            color: var(--charcoal);
-            margin-bottom: 1rem;
         }
-        .page-header .separator {
+
+        .separator {
             width: 50px;
             height: 1px;
             background: var(--gold);
-            margin: 0 auto 1.2rem;
-        }
-        .page-header p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-weight: 300;
-            letter-spacing: 1px;
+            margin: 1rem auto;
         }
 
-        /* Contact Layout */
+        .page-header p {
+            color: var(--text-muted);
+        }
+
+        /* CONTACT */
         .contact-container {
             max-width: 1200px;
             margin: 4rem auto;
@@ -118,347 +117,223 @@
             gap: 4rem;
         }
 
-        /* Info Section */
         .contact-info h2 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2.2rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-bottom: 2rem;
             color: var(--gold);
+            margin-bottom: 2rem;
         }
+
         .info-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
             background: white;
             border: 1px solid var(--stone);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 1.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            gap: 1rem;
         }
-        .info-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(45, 41, 38, 0.08);
-        }
+
         .info-icon {
-            font-size: 1.3rem;
-            margin-right: 1rem;
+            font-size: 1.4rem;
             color: var(--gold);
-            min-width: 30px;
         }
+
         .info-content h3 {
-            font-family: 'Montserrat', sans-serif;
             font-size: 0.8rem;
-            font-weight: 400;
-            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            color: var(--charcoal);
+            letter-spacing: 2px;
         }
+
         .info-content p {
             font-size: 0.95rem;
-            font-weight: 300;
             color: var(--text-muted);
-            line-height: 1.8;
         }
-        .info-content a {
-            color: var(--gold);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .info-content a:hover { color: var(--charcoal); }
 
-        /* Booking Section */
         .contact-booking {
             background: white;
-            padding: 2.5rem;
             border: 1px solid var(--stone);
+            padding: 2.5rem;
         }
+
         .contact-booking h2 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
-            color: var(--charcoal);
+            margin-bottom: 1rem;
         }
-        .contact-booking > p {
-            margin-bottom: 2rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.8;
-        }
-        .booking-links {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+
         .booking-link {
             display: block;
             padding: 1.2rem;
-            text-decoration: none;
             text-align: center;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 300;
+            margin-top: 1rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            transition: all 0.4s ease;
+            text-decoration: none;
+            border: 1px solid var(--charcoal);
+            transition: 0.3s;
         }
+
         .booking-link-primary {
             background: var(--charcoal);
-            color: var(--warm-white);
-            border: 1px solid var(--charcoal);
+            color: white;
         }
+
         .booking-link-primary:hover {
             background: var(--gold);
             border-color: var(--gold);
         }
-        .booking-link-secondary {
-            background: transparent;
-            color: var(--charcoal);
-            border: 1px solid var(--charcoal);
-        }
+
         .booking-link-secondary:hover {
             background: var(--charcoal);
-            color: var(--warm-white);
+            color: white;
         }
 
-        /* Practical Info */
-        .practical-info {
-            margin-top: 2rem;
-            padding: 2rem;
-            background: var(--cream);
-        }
-        .practical-info h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            color: var(--charcoal);
-        }
-        .practical-info ul {
-            list-style: none;
-            padding: 0;
-        }
-        .practical-info li {
-            font-size: 0.9rem;
-            line-height: 2;
-            color: var(--text-muted);
-            padding-left: 1.2rem;
-            position: relative;
-        }
-        .practical-info li::before {
-            content: '—';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-        }
-
-        /* Map Section */
+        /* MAP */
         .map-section {
-            margin: 4rem 5%;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 4rem auto;
             padding: 2rem;
             background: white;
             border: 1px solid var(--stone);
         }
+
         .map-section h2 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 2rem;
-            font-weight: 300;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
             text-align: center;
-            color: var(--charcoal);
-        }
-        .map-placeholder {
-            width: 100%;
-            height: 350px;
-            background: var(--cream);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
         }
 
-        /* Footer */
+        .map-container iframe {
+            width: 100%;
+            height: 350px;
+            border: 0;
+            border-radius: 8px;
+        }
+
+        /* FOOTER */
         footer {
             background: var(--charcoal);
             color: rgba(255,255,255,0.5);
-            padding: 4rem 5%;
+            padding: 3rem 5%;
             margin-top: 4rem;
         }
+
         .footer-content {
             max-width: 1200px;
-            margin: 0 auto;
+            margin: auto;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
-        .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            font-weight: 300;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.8);
-        }
-        .footer-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-        .footer-links a {
-            color: rgba(255,255,255,0.5);
-            text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: color 0.3s ease;
-        }
-        .footer-links a:hover { color: var(--gold); }
 
         @media (max-width: 768px) {
-            .nav-links { gap: 1.5rem; }
-            .nav-links a { font-size: 0.7rem; letter-spacing: 1px; }
-            .page-header h1 { font-size: 2.5rem; }
-            .contact-container { grid-template-columns: 1fr; gap: 3rem; }
-            .contact-booking { padding: 2rem; }
-            .footer-content { flex-direction: column; gap: 2rem; text-align: center; }
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
         }
     </style>
 </head>
+
 <body>
-    <!-- Navigation -->
-    <nav>
-        <a href="index-luxe.html" class="logo">Nidam</a>
-        <ul class="nav-links">
-            <li><a href="index-luxe.html">Accueil</a></li>
-            <li><a href="galerie-luxe.html">Galerie</a></li>
-            <li><a href="contact-luxe.html">Contact</a></li>
-        </ul>
-    </nav>
 
-    <!-- Page Header -->
-    <section class="page-header">
-        <h1>Réservez votre séjour</h1>
-        <div class="separator"></div>
-        <p>Note 4.95/5 ⭐ · 187 avis · Coup de cœur voyageurs</p>
-    </section>
+<!-- NAV -->
+<nav>
+    <a href="index-luxe.html" class="logo">Nidam</a>
+    <ul class="nav-links">
+        <li><a href="index-luxe.html">Accueil</a></li>
+        <li><a href="galerie-luxe.html">Galerie</a></li>
+        <li><a href="contact-luxe.html">Contact</a></li>
+    </ul>
+</nav>
 
-    <!-- Contact Section -->
-    <div class="contact-container">
-        <!-- Contact Info -->
-        <div class="contact-info">
-            <h2>Informations</h2>
+<!-- HEADER -->
+<section class="page-header">
+    <h1>Réservez votre séjour</h1>
+    <div class="separator"></div>
+    <p>Note 4.95/5 ⭐ · 187 avis · Coup de cœur voyageurs</p>
+</section>
 
-            <div class="info-item">
-                <div class="info-icon">📍</div>
-                <div class="info-content">
-                    <h3>Adresse</h3>
-                    <p>51 Impasse des 3 Fontaines<br>38850 Bilieu<br>Auvergne-Rhône-Alpes, France</p>
-                </div>
-            </div>
+<!-- CONTACT -->
+<div class="contact-container">
 
-            <div class="info-item">
-                <div class="info-icon">📧</div>
-                <div class="info-content">
-                    <h3>Réservation</h3>
-                    <p>Via <a href="https://www.airbnb.com/rooms/49770413" target="_blank">Airbnb</a><br>ou <a href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank">Gîtes de France</a></p>
-                </div>
-            </div>
+    <div class="contact-info">
+        <h2>Informations</h2>
 
-            <div class="info-item">
-                <div class="info-icon">⭐</div>
-                <div class="info-content">
-                    <h3>Évaluations</h3>
-                    <p>Note : 4.95/5 ⭐<br>187 commentaires<br>Coup de cœur voyageurs - Top 5%</p>
-                </div>
-            </div>
-
-            <div class="info-item">
-                <div class="info-icon">🕐</div>
-                <div class="info-content">
-                    <h3>Horaires</h3>
-                    <p>Arrivée : après 16h00<br>Départ : avant 11h00<br>Horaires flexibles sur demande</p>
-                </div>
-            </div>
-
-            <div class="info-item">
-                <div class="info-icon">👥</div>
-                <div class="info-content">
-                    <h3>Vos hôtes</h3>
-                    <p>Guillaume & Habiba<br>Superhôtes depuis 5 ans<br>Taux de réponse : 100%<br>Réponse en moins d'une heure</p>
-                </div>
+        <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-content">
+                <h3>Adresse</h3>
+                <p>51 Impasse des 3 Fontaines<br>38850 Bilieu<br>France</p>
             </div>
         </div>
 
-        <!-- Booking -->
-        <div class="contact-booking">
-            <h2>Réserver sur Airbnb</h2>
-            <p>Pour réserver ou poser une question, rendez-vous directement sur notre annonce Airbnb où Guillaume et Habiba vous répondront en moins d'une heure.</p>
-
-            <div class="booking-links">
-                <a href="https://www.airbnb.com/rooms/49770413" target="_blank" class="booking-link booking-link-primary">
-                    Réserver sur Airbnb
-                </a>
-                <a href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank" class="booking-link booking-link-secondary">
-                    Voir sur Gîtes de France
-                </a>
+        <div class="info-item">
+            <div class="info-icon">📧</div>
+            <div class="info-content">
+                <h3>Réservation</h3>
+                <p><a href="https://www.airbnb.com/rooms/49770413" target="_blank">Airbnb</a><br>
+                <a href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank">Gîtes de France</a></p>
             </div>
+        </div>
 
-            <div class="practical-info">
-                <h3>Informations pratiques</h3>
-                <ul>
-                    <li>Wifi rapide 220 Mbps</li>
-                    <li>Parking gratuit pour 3 véhicules</li>
-                    <li>Ménage, draps et serviettes inclus</li>
-                    <li>Carte d'accès au lac fournie</li>
-                    <li>Arrivée autonome avec boîte à clés</li>
-                    <li>6 voyageurs maximum</li>
-                </ul>
+        <div class="info-item">
+            <div class="info-icon">⭐</div>
+            <div class="info-content">
+                <h3>Évaluations</h3>
+                <p>4.95/5 · 187 avis · Top 5%</p>
+            </div>
+        </div>
+
+        <div class="info-item">
+            <div class="info-icon">🕐</div>
+            <div class="info-content">
+                <h3>Horaires</h3>
+                <p>Arrivée : 16h<br>Départ : 11h</p>
             </div>
         </div>
     </div>
 
-    <!-- Map Section -->
-    <section class="map-section">
-        <h2>Situation géographique</h2>
-        <div class="map-placeholder">
-            <p>🗺️ Lac de Paladru — Hauteurs de Bilieu</p>
-        </div>
-    </section>
+    <div class="contact-booking">
+        <h2>Réserver</h2>
+        <p>Contactez Guillaume et Habiba directement via Airbnb.</p>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">Nidam</div>
-            <ul class="footer-links">
-                <li><a href="index-luxe.html">Accueil</a></li>
-                <li><a href="galerie-luxe.html">Galerie</a></li>
-                <li><a href="contact-luxe.html">Contact</a></li>
-            </ul>
-        </div>
-    </footer>
+        <a class="booking-link booking-link-primary" href="https://www.airbnb.com/rooms/49770413" target="_blank">
+            Réserver sur Airbnb
+        </a>
 
-    <script>
-        // Hover effects pour les boutons
-        document.querySelectorAll('.booking-link').forEach(link => {
-            link.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-2px)';
-                this.style.boxShadow = '0 8px 25px rgba(45, 41, 38, 0.12)';
-            });
-            link.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '';
-            });
-        });
-    </script>
+        <a class="booking-link booking-link-secondary" href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank">
+            Voir sur Gîtes de France
+        </a>
+    </div>
+
+</div>
+
+<!-- MAP -->
+<section class="map-section">
+    <h2>Situation géographique</h2>
+
+    <div class="map-container">
+        <iframe
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=51%20Impasse%20des%203%20Fontaines%2C%2038850%20Bilieu&z=15&output=embed">
+        </iframe>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-content">
+        <div>Nidam</div>
+        <div>© 2026 Nidam</div>
+    </div>
+</footer>
+
 </body>
 </html>
