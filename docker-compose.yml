@@ -1,7 +1,0 @@
-services:
-  nidam:
-    build: .
-    container_name: nidam
-    ports:
-      - "8090:80"
-    restart: unless-stopped
