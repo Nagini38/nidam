@@ -473,6 +473,65 @@
             margin-bottom: 1rem;
         }
 
+        /* Article editor */
+        .article-editor {
+            background: white;
+            border: 1px solid var(--stone);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .article-editor-header span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--charcoal);
+        }
+
+        .article-editor .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .article-editor .form-group label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .article-editor .form-group input,
+        .article-editor .form-group textarea {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1px solid var(--stone);
+            background: var(--warm-white);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color 0.3s;
+            resize: vertical;
+        }
+
+        .article-editor .form-group textarea {
+            min-height: 100px;
+        }
+
+        .article-editor .form-group input:focus,
+        .article-editor .form-group textarea:focus {
+            border-color: var(--gold);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .admin-tabs {
@@ -530,6 +589,7 @@
         <button class="admin-tab active" data-tab="home">Accueil</button>
         <button class="admin-tab" data-tab="gallery">Galerie</button>
         <button class="admin-tab" data-tab="contact">Contact</button>
+        <button class="admin-tab" data-tab="newsletter">Newsletter</button>
         <button class="admin-tab" data-tab="settings">Paramètres</button>
     </div>
 
@@ -682,6 +742,34 @@
             </div>
         </div>
 
+        <!-- ===== TAB NEWSLETTER ===== -->
+        <div class="admin-section" id="tab-newsletter">
+            <h2 class="section-title">Page Newsletter</h2>
+            <p class="section-desc">Ajoutez et gérez les articles de la newsletter</p>
+
+            <div class="form-group">
+                <label>Titre de la page</label>
+                <input type="text" id="edit-newsletter_title" placeholder="Titre de la page newsletter">
+            </div>
+
+            <div class="form-group">
+                <label>Sous-titre</label>
+                <input type="text" id="edit-newsletter_subtitle" placeholder="Sous-titre de la page newsletter">
+            </div>
+
+            <hr class="form-divider">
+
+            <h3 class="section-title" style="font-size:1.5rem;">Articles</h3>
+            <p class="section-desc">Ajoutez, modifiez ou supprimez les articles de la newsletter</p>
+            <div id="newsletter-articles-editor"></div>
+            <button class="btn-add" id="btn-add-newsletter-article">+ Ajouter un article</button>
+
+            <div class="actions-bar">
+                <button class="btn-save" id="save-newsletter">Enregistrer</button>
+                <button class="btn-reset" data-reset="newsletter">Réinitialiser</button>
+            </div>
+        </div>
+
         <!-- ===== TAB PARAMETRES ===== -->
         <div class="admin-section" id="tab-settings">
             <h2 class="section-title">Paramètres</h2>
@@ -814,7 +902,8 @@
             'gallery_title', 'gallery_subtitle',
             'contact_title', 'contact_subtitle', 'contact_address',
             'contact_rating', 'contact_checkin', 'contact_booking_text',
-            'contact_airbnb_url', 'contact_gites_url', 'contact_map_title'
+            'contact_airbnb_url', 'contact_gites_url', 'contact_map_title',
+            'newsletter_title', 'newsletter_subtitle'
         ];
 
         fields.forEach(field => {
@@ -827,6 +916,9 @@
         // Image galleries
         renderImageEditors('home-gallery-editor', c.home_gallery || []);
         renderImageEditors('gallery-images-editor', c.gallery_images || []);
+
+        // Newsletter articles
+        renderArticleEditors(c.newsletter_articles || []);
     }
 
     // ============ SAVE FUNCTIONS ============
@@ -867,6 +959,80 @@
         c.contact_map_title = document.getElementById('edit-contact_map_title').value.trim();
         SiteContent.save(c);
         showToast('Page contact sauvegardée', 'success');
+    }
+
+    // ============ NEWSLETTER ARTICLE EDITOR ============
+    function createArticleEditor(article, index) {
+        const div = document.createElement('div');
+        div.className = 'article-editor';
+        div.dataset.index = index;
+
+        div.innerHTML =
+            '<div class="article-editor-header">' +
+                '<span>Article ' + (index + 1) + '</span>' +
+                '<button class="btn-remove-image">Supprimer</button>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Titre de l\'article</label>' +
+                '<input type="text" class="article-title" value="' + (article.title || '').replace(/"/g, '&quot;') + '" placeholder="Titre de l\'article">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Date</label>' +
+                '<input type="date" class="article-date" value="' + (article.date || '') + '">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Image (URL, optionnel)</label>' +
+                '<input type="url" class="article-image" value="' + (article.image || '') + '" placeholder="https://...">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Contenu</label>' +
+                '<textarea class="article-content" placeholder="Contenu de l\'article">' + (article.content || '') + '</textarea>' +
+            '</div>';
+
+        div.querySelector('.btn-remove-image').addEventListener('click', function() {
+            div.remove();
+            // Re-number remaining articles
+            const container = document.getElementById('newsletter-articles-editor');
+            container.querySelectorAll('.article-editor').forEach((ed, i) => {
+                ed.dataset.index = i;
+                ed.querySelector('.article-editor-header span').textContent = 'Article ' + (i + 1);
+            });
+        });
+
+        return div;
+    }
+
+    function renderArticleEditors(articles) {
+        const container = document.getElementById('newsletter-articles-editor');
+        container.innerHTML = '';
+        articles.forEach((article, i) => {
+            container.appendChild(createArticleEditor(article, i));
+        });
+    }
+
+    function collectArticles() {
+        const container = document.getElementById('newsletter-articles-editor');
+        const editors = container.querySelectorAll('.article-editor');
+        const articles = [];
+        editors.forEach(editor => {
+            const title = editor.querySelector('.article-title').value.trim();
+            const date = editor.querySelector('.article-date').value;
+            const image = editor.querySelector('.article-image').value.trim();
+            const content = editor.querySelector('.article-content').value.trim();
+            if (title || content) {
+                articles.push({ title: title, date: date, image: image, content: content });
+            }
+        });
+        return articles;
+    }
+
+    function saveNewsletter() {
+        const c = SiteContent.load();
+        c.newsletter_title = document.getElementById('edit-newsletter_title').value.trim();
+        c.newsletter_subtitle = document.getElementById('edit-newsletter_subtitle').value.trim();
+        c.newsletter_articles = collectArticles();
+        SiteContent.save(c);
+        showToast('Page newsletter sauvegardée', 'success');
     }
 
     // ============ INIT ============
@@ -918,6 +1084,7 @@
         document.getElementById('save-home').addEventListener('click', saveHome);
         document.getElementById('save-gallery').addEventListener('click', saveGallery);
         document.getElementById('save-contact').addEventListener('click', saveContact);
+        document.getElementById('save-newsletter').addEventListener('click', saveNewsletter);
 
         // Add image buttons
         document.getElementById('btn-add-home-image').addEventListener('click', function() {
@@ -928,6 +1095,12 @@
         document.getElementById('btn-add-gallery-image').addEventListener('click', function() {
             const container = document.getElementById('gallery-images-editor');
             container.appendChild(createImageEditor({ src: '', alt: '' }, container.children.length, 'gallery-images-editor'));
+        });
+
+        document.getElementById('btn-add-newsletter-article').addEventListener('click', function() {
+            const container = document.getElementById('newsletter-articles-editor');
+            const today = new Date().toISOString().split('T')[0];
+            container.appendChild(createArticleEditor({ title: '', date: today, image: '', content: '' }, container.children.length));
         });
 
         // Reset buttons
@@ -963,6 +1136,10 @@
                     c.contact_airbnb_url = d.contact_airbnb_url;
                     c.contact_gites_url = d.contact_gites_url;
                     c.contact_map_title = d.contact_map_title;
+                } else if (section === 'newsletter') {
+                    c.newsletter_title = d.newsletter_title;
+                    c.newsletter_subtitle = d.newsletter_subtitle;
+                    c.newsletter_articles = [...d.newsletter_articles];
                 }
 
                 SiteContent.save(c);

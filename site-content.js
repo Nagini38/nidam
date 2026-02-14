@@ -54,7 +54,19 @@ const SiteContent = {
         contact_booking_text: 'Contactez Guillaume et Habiba directement via Airbnb.',
         contact_airbnb_url: 'https://www.airbnb.com/rooms/49770413',
         contact_gites_url: 'https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html',
-        contact_map_title: 'Situation géographique'
+        contact_map_title: 'Situation géographique',
+
+        // === PAGE NEWSLETTER ===
+        newsletter_title: 'Newsletter',
+        newsletter_subtitle: 'Restez informés des dernières actualités de Nidam',
+        newsletter_articles: [
+            {
+                title: 'Bienvenue sur notre newsletter',
+                date: '2026-02-14',
+                content: 'Retrouvez ici toutes les actualités, événements et informations concernant la villa Nidam au lac de Paladru. Nous vous tiendrons informés des nouveautés, des offres spéciales et des événements locaux à ne pas manquer.',
+                image: ''
+            }
+        ]
     },
 
     // Charger le contenu (localStorage prioritaire, sinon défauts)
@@ -186,6 +198,44 @@ const SiteContent = {
 
         const mapTitle = document.querySelector('.map-section h2');
         if (mapTitle) mapTitle.textContent = c.contact_map_title;
+    },
+
+    // Appliquer le contenu à la page newsletter
+    applyToNewsletter() {
+        const c = this.load();
+
+        const title = document.querySelector('.page-header h1');
+        if (title) title.textContent = c.newsletter_title;
+
+        const subtitle = document.querySelector('.page-header p');
+        if (subtitle) subtitle.textContent = c.newsletter_subtitle;
+
+        const container = document.querySelector('.newsletter-list');
+        if (container && c.newsletter_articles) {
+            container.innerHTML = '';
+            c.newsletter_articles.forEach(article => {
+                const div = document.createElement('article');
+                div.className = 'newsletter-article';
+
+                let imageHtml = '';
+                if (article.image) {
+                    imageHtml = '<div class="article-image"><img src="' + article.image + '" alt="' + article.title + '"></div>';
+                }
+
+                const date = new Date(article.date);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                const dateStr = date.toLocaleDateString('fr-FR', options);
+
+                div.innerHTML =
+                    imageHtml +
+                    '<div class="article-body">' +
+                        '<span class="article-date">' + dateStr + '</span>' +
+                        '<h2 class="article-title">' + article.title + '</h2>' +
+                        '<p class="article-content">' + article.content + '</p>' +
+                    '</div>';
+                container.appendChild(div);
+            });
+        }
     },
 
     // Init lightbox après rendu dynamique
