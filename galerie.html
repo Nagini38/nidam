@@ -6,25 +6,25 @@
     <title>Galerie - Nidam</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
-            --cream: #F5F0EB;
-            --warm-white: #FAF8F5;
-            --charcoal: #2D2926;
-            --gold: #B8956A;
-            --gold-light: #D4C4A8;
-            --text-muted: #7A7067;
-            --stone: #E8E0D6;
+            --cream: #F8F6F1;
+            --charcoal: #2C2C2C;
+            --accent: #8B7355;
+            --light-accent: #C4B5A0;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
+            background-color: var(--cream);
             color: var(--charcoal);
-            background-color: var(--warm-white);
             line-height: 1.6;
         }
 
@@ -33,79 +33,97 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(245, 240, 235, 0.95);
-            backdrop-filter: blur(12px);
+            background: rgba(248, 246, 241, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 1.2rem 5%;
+            padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(184, 149, 106, 0.2);
+            border-bottom: 1px solid rgba(44, 44, 44, 0.1);
         }
+
         .logo {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 300;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--charcoal);
             text-decoration: none;
-            text-transform: uppercase;
         }
+
         .nav-links {
             display: flex;
-            gap: 3rem;
+            gap: 2.5rem;
             list-style: none;
         }
+
         .nav-links a {
             color: var(--charcoal);
             text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 300;
-            position: relative;
             transition: color 0.3s ease;
         }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--gold);
-            transition: width 0.3s ease;
-        }
-        .nav-links a:hover { color: var(--gold); }
-        .nav-links a:hover::after { width: 100%; }
 
-        /* Page Header */
-        .page-header {
-            margin-top: 60px;
-            padding: 5rem 5% 4rem;
-            text-align: center;
-            background: var(--cream);
-            border-bottom: 1px solid var(--stone);
+        .nav-links a:hover {
+            color: var(--accent);
         }
+
+        /* Hamburger button */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 2px;
+            background: var(--charcoal);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Header */
+        .page-header {
+            margin-top: 80px;
+            padding: 4rem 5%;
+            text-align: center;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--light-accent) 100%);
+        }
+
         .page-header h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             font-weight: 300;
-            letter-spacing: 3px;
-            color: var(--charcoal);
+            letter-spacing: 2px;
             margin-bottom: 1rem;
+            color: var(--charcoal);
         }
-        .page-header .separator {
-            width: 50px;
-            height: 1px;
-            background: var(--gold);
-            margin: 0 auto 1.2rem;
-        }
+
         .page-header p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
+            font-size: 1.1rem;
+            color: rgba(44, 44, 44, 0.7);
             font-weight: 300;
-            letter-spacing: 1px;
         }
 
         /* Gallery Grid */
@@ -114,64 +132,103 @@
             max-width: 1400px;
             margin: 0 auto;
         }
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
         }
+
         .gallery-item {
             position: relative;
             overflow: hidden;
             aspect-ratio: 4/3;
             cursor: pointer;
+            border-radius: 4px;
+            animation: fadeInScale 0.6s ease-out both;
         }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.35s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+        .gallery-item:nth-child(10) { animation-delay: 0.5s; }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s ease;
+            transition: transform 0.5s ease;
         }
+
         .gallery-item:hover img {
             transform: scale(1.08);
         }
-        .gallery-item::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(45, 41, 38, 0);
-            transition: background 0.4s ease;
-        }
-        .gallery-item:hover::after {
-            background: rgba(45, 41, 38, 0.1);
-        }
 
-        /* Lightbox */
+        /* Lightbox Modal */
         .lightbox {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
+
         .lightbox.active {
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 1;
         }
+
         .lightbox-content {
             position: relative;
             max-width: 90%;
             max-height: 90vh;
+            animation: zoomInLightbox 0.4s ease-out;
         }
+
+        @keyframes zoomInLightbox {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         .lightbox-content img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             max-height: 90vh;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
+
         .lightbox-close {
             position: absolute;
             top: -50px;
@@ -179,40 +236,61 @@
             background: transparent;
             border: none;
             color: white;
-            font-size: 2rem;
+            font-size: 2.5rem;
             cursor: pointer;
-            font-weight: 300;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: transform 0.3s ease;
+            font-weight: 300;
         }
-        .lightbox-close:hover { transform: rotate(90deg); }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+        }
+
         .lightbox-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.08);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 2rem;
             cursor: pointer;
-            width: 55px;
-            height: 55px;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            border-radius: 50%;
         }
-        .lightbox-nav:hover { background: rgba(255,255,255,0.15); }
-        .lightbox-prev { left: 2rem; }
-        .lightbox-next { right: 2rem; }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 2rem;
+        }
+
+        .lightbox-next {
+            right: 2rem;
+        }
+
         .lightbox-counter {
             position: absolute;
-            bottom: -45px;
+            bottom: -50px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255,255,255,0.6);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+            color: white;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
         }
@@ -220,10 +298,11 @@
         /* Footer */
         footer {
             background: var(--charcoal);
-            color: rgba(255,255,255,0.5);
+            color: var(--cream);
             padding: 4rem 5%;
-            margin-top: 4rem;
+            margin-top: 6rem;
         }
+
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -231,84 +310,92 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .footer-logo {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 300;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.8);
+            letter-spacing: 2px;
         }
+
         .footer-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
         }
+
         .footer-links a {
-            color: rgba(255,255,255,0.5);
+            color: var(--cream);
             text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
             transition: color 0.3s ease;
         }
-        .footer-links a:hover { color: var(--gold); }
 
-        /* Admin button */
-        .admin-link {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            width: 40px;
-            height: 40px;
-            background: rgba(45, 41, 38, 0.15);
-            border: none;
-            cursor: pointer;
-            opacity: 0.3;
-            transition: opacity 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            text-decoration: none;
-            font-size: 1.1rem;
-            color: var(--charcoal);
+        .footer-links a:hover {
+            color: var(--light-accent);
         }
-        .admin-link:hover { opacity: 1; background: rgba(45, 41, 38, 0.25); }
 
         @media (max-width: 768px) {
-            .nav-links { gap: 1.5rem; }
-            .nav-links a { font-size: 0.7rem; letter-spacing: 1px; }
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(248, 246, 241, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                padding: 1.5rem 5%;
+                gap: 0;
+                border-bottom: 1px solid rgba(44, 44, 44, 0.1);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active { display: flex; }
+            .nav-links li { padding: 0.8rem 0; border-bottom: 1px solid rgba(44, 44, 44, 0.05); }
+            .nav-links li:last-child { border-bottom: none; }
+            .nav-links a { font-size: 0.95rem; }
+
             .page-header h1 { font-size: 2.5rem; }
             .gallery-grid { grid-template-columns: 1fr; }
             .footer-content { flex-direction: column; gap: 2rem; text-align: center; }
-            .lightbox-nav { width: 45px; height: 45px; font-size: 1.2rem; }
+            .lightbox-nav { width: 50px; height: 50px; font-size: 1.5rem; }
             .lightbox-prev { left: 1rem; }
             .lightbox-next { right: 1rem; }
+            .lightbox-close { top: -40px; font-size: 2rem; }
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
-        <a href="index-luxe.html" class="logo">Nidam</a>
-        <ul class="nav-links">
-            <li><a href="index-luxe.html">Accueil</a></li>
-            <li><a href="galerie-luxe.html">Galerie</a></li>
-            <li><a href="newsletter-luxe.html">Newsletter</a></li>
-            <li><a href="contact-luxe.html">Contact</a></li>
+        <a href="index.html" class="logo">Nidam</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="logement.html">Logement</a></li>
+            <li><a href="bien-etre.html">Bien-etre</a></li>
+            <li><a href="decouvrir.html">Region</a></li>
+            <li><a href="galerie.html">Galerie</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
 
     <!-- Page Header -->
     <section class="page-header">
         <h1>Galerie Photos</h1>
-        <div class="separator"></div>
         <p>12 photos · Découvrez tous les espaces de notre villa au lac de Paladru</p>
     </section>
 
     <!-- Gallery Grid -->
     <div class="gallery-container">
         <div class="gallery-grid">
+            <!-- Toutes les photos vérifiées d'Airbnb -->
             <div class="gallery-item" data-index="0">
                 <img src="https://a0.muscache.com/im/pictures/ce526b31-07d8-41a5-ae85-1c4f5d3c4294.jpg?aki_policy=xx_large" alt="Vue principale de la villa Nidam">
             </div>
@@ -359,38 +446,59 @@
         </div>
     </div>
 
-    <!-- Admin link -->
-    <a href="admin.html" class="admin-link" title="Administration">&#9881;</a>
-
     <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-logo">Nidam</div>
             <ul class="footer-links">
-                <li><a href="index-luxe.html">Accueil</a></li>
-                <li><a href="galerie-luxe.html">Galerie</a></li>
-                <li><a href="contact-luxe.html">Contact</a></li>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="logement.html">Logement</a></li>
+                <li><a href="bien-etre.html">Bien-etre</a></li>
+                <li><a href="decouvrir.html">Region</a></li>
+                <li><a href="galerie.html">Galerie</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </div>
     </footer>
 
-    <script src="site-content.js"></script>
     <script>
-        // Lightbox
+        // Mobile hamburger menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Lightbox functionality
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        const lightboxCounter = document.getElementById('lightboxCounter');
         const galleryItems = document.querySelectorAll('.gallery-item');
         let currentIndex = 0;
 
+        // Open lightbox
         galleryItems.forEach((item, index) => {
-            item.addEventListener('click', () => { currentIndex = index; openLightbox(); });
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                openLightbox();
+            });
         });
 
         function openLightbox() {
             const img = galleryItems[currentIndex].querySelector('img');
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
-            document.getElementById('lightboxCounter').textContent = (currentIndex + 1) + ' / ' + galleryItems.length;
+            updateCounter();
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -400,31 +508,57 @@
             document.body.style.overflow = '';
         }
 
-        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+        function updateCounter() {
+            lightboxCounter.textContent = `${currentIndex + 1} / ${galleryItems.length}`;
+        }
 
-        document.getElementById('lightboxNext').addEventListener('click', (e) => {
-            e.stopPropagation();
+        function showNext() {
             currentIndex = (currentIndex + 1) % galleryItems.length;
-            openLightbox();
-        });
-        document.getElementById('lightboxPrev').addEventListener('click', (e) => {
-            e.stopPropagation();
+            const img = galleryItems[currentIndex].querySelector('img');
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            updateCounter();
+        }
+
+        function showPrev() {
             currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length;
-            openLightbox();
+            const img = galleryItems[currentIndex].querySelector('img');
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            updateCounter();
+        }
+
+        // Close lightbox
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
         });
 
+        // Navigation
+        lightboxNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showNext();
+        });
+
+        lightboxPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showPrev();
+        });
+
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            else if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % galleryItems.length; openLightbox(); }
-            else if (e.key === 'ArrowLeft') { currentIndex = (currentIndex - 1 + galleryItems.length) % galleryItems.length; openLightbox(); }
+            
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowRight') {
+                showNext();
+            } else if (e.key === 'ArrowLeft') {
+                showPrev();
+            }
         });
-
-        // Load dynamic content from admin
-        if (typeof SiteContent !== 'undefined') {
-            SiteContent.applyToGallery();
-        }
     </script>
 </body>
 </html>
