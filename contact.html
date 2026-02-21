@@ -494,10 +494,16 @@
 
     <!-- Map Section -->
     <section class="map-section">
-        <h2>Situation géographique</h2>
-        <div class="map-placeholder">
-            <p>🗺️ Lac de Paladru - Hauteurs de Bilieu</p>
-        </div>
+        <h2 class="map-title">Situation géographique</h2>
+        <iframe
+            src="https://maps.google.com/maps?q=51+Impasse+des+3+Fontaines,+38850+Bilieu,+France&output=embed&hl=fr&z=15"
+            width="100%"
+            height="400"
+            style="border:0; border-radius:4px; display:block;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
     </section>
 
     <!-- Footer -->
@@ -513,7 +519,27 @@
         </div>
     </footer>
 
+    <script src="site-content.js"></script>
     <script>
+        // Apply admin content
+        (function() {
+            const c = SiteContent.load();
+            const h1 = document.querySelector('.page-header h1');
+            if (h1) h1.textContent = c.contact_title;
+            const sub = document.querySelector('.page-header p');
+            if (sub) sub.innerHTML = c.contact_subtitle;
+            const infoParagraphs = document.querySelectorAll('.info-content p');
+            if (infoParagraphs[0]) infoParagraphs[0].innerHTML = c.contact_address;
+            if (infoParagraphs[2]) infoParagraphs[2].textContent = c.contact_rating;
+            if (infoParagraphs[3]) infoParagraphs[3].innerHTML = c.contact_checkin;
+            const mapTitle = document.querySelector('.map-title');
+            if (mapTitle) mapTitle.textContent = c.contact_map_title;
+            const airbnbLink = document.querySelector('a[href*="airbnb.com"]');
+            if (airbnbLink && c.contact_airbnb_url) airbnbLink.href = c.contact_airbnb_url;
+            const gitesLink = document.querySelector('a[href*="gites-de-france"]');
+            if (gitesLink && c.contact_gites_url) gitesLink.href = c.contact_gites_url;
+        })();
+
         // Mobile hamburger menu
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
