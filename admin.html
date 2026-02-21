@@ -870,27 +870,30 @@
 <script>
     // ============ AUTH ============
     const AUTH_KEY = 'nidam_admin_auth';
-    const PASS_KEY = 'nidam_admin_pass';
-    const DEFAULT_PASS = 'Lisaemma9632';
-
-    function getPassword() {
-        return localStorage.getItem(PASS_KEY) || DEFAULT_PASS;
-    }
+    const PASS_KEY = 'nidam_admin_pass_session';
+    let adminPassword = '';
 
     function isLoggedIn() {
         return sessionStorage.getItem(AUTH_KEY) === 'true';
     }
 
-    function login(password) {
-        if (password === getPassword()) {
+    function getStoredPassword() {
+        return sessionStorage.getItem(PASS_KEY) || '';
+    }
+
+    async function login(password) {
+        const ok = await SiteContent.auth(password);
+        if (ok) {
             sessionStorage.setItem(AUTH_KEY, 'true');
-            return true;
+            sessionStorage.setItem(PASS_KEY, password);
+            adminPassword = password;
         }
-        return false;
+        return ok;
     }
 
     function logout() {
         sessionStorage.removeItem(AUTH_KEY);
+        sessionStorage.removeItem(PASS_KEY);
         location.reload();
     }
 
@@ -956,8 +959,8 @@
     }
 
     // ============ LOAD CONTENT INTO FORMS ============
-    function loadFormData() {
-        const c = SiteContent.load();
+    async function loadFormData() {
+        const c = await SiteContent.load();
 
         // Simple text fields
         const fields = [
@@ -992,8 +995,8 @@
     }
 
     // ============ SAVE FUNCTIONS ============
-    function saveHome() {
-        const c = SiteContent.load();
+    async function saveHome() {
+        const c = await SiteContent.load();
         c.hero_image = document.getElementById('edit-hero_image').value.trim();
         c.hero_title = document.getElementById('edit-hero_title').value.trim();
         c.hero_subtitle = document.getElementById('edit-hero_subtitle').value.trim();
@@ -1003,21 +1006,21 @@
         c.intro_p2 = document.getElementById('edit-intro_p2').value.trim();
         c.intro_p3 = document.getElementById('edit-intro_p3').value.trim();
         c.home_gallery = collectImages('home-gallery-editor');
-        SiteContent.save(c);
-        showToast('Page d\'accueil sauvegardée', 'success');
+        const ok = await SiteContent.save(c, adminPassword);
+        showToast(ok ? 'Page d\'accueil sauvegardée' : 'Erreur de sauvegarde', ok ? 'success' : '');
     }
 
-    function saveGallery() {
-        const c = SiteContent.load();
+    async function saveGallery() {
+        const c = await SiteContent.load();
         c.gallery_title = document.getElementById('edit-gallery_title').value.trim();
         c.gallery_subtitle = document.getElementById('edit-gallery_subtitle').value.trim();
         c.gallery_images = collectImages('gallery-images-editor');
-        SiteContent.save(c);
-        showToast('Page galerie sauvegardée', 'success');
+        const ok = await SiteContent.save(c, adminPassword);
+        showToast(ok ? 'Page galerie sauvegardée' : 'Erreur de sauvegarde', ok ? 'success' : '');
     }
 
-    function saveContact() {
-        const c = SiteContent.load();
+    async function saveContact() {
+        const c = await SiteContent.load();
         c.contact_title = document.getElementById('edit-contact_title').value.trim();
         c.contact_subtitle = document.getElementById('edit-contact_subtitle').value.trim();
         c.contact_address = document.getElementById('edit-contact_address').value.trim();
@@ -1027,8 +1030,8 @@
         c.contact_airbnb_url = document.getElementById('edit-contact_airbnb_url').value.trim();
         c.contact_gites_url = document.getElementById('edit-contact_gites_url').value.trim();
         c.contact_map_title = document.getElementById('edit-contact_map_title').value.trim();
-        SiteContent.save(c);
-        showToast('Page contact sauvegardée', 'success');
+        const ok = await SiteContent.save(c, adminPassword);
+        showToast(ok ? 'Page contact sauvegardée' : 'Erreur de sauvegarde', ok ? 'success' : '');
     }
 
     // ============ NEWSLETTER ARTICLE EDITOR ============
@@ -1096,13 +1099,13 @@
         return articles;
     }
 
-    function saveNewsletter() {
-        const c = SiteContent.load();
+    async function saveNewsletter() {
+        const c = await SiteContent.load();
         c.newsletter_title = document.getElementById('edit-newsletter_title').value.trim();
         c.newsletter_subtitle = document.getElementById('edit-newsletter_subtitle').value.trim();
         c.newsletter_articles = collectArticles();
-        SiteContent.save(c);
-        showToast('Page newsletter sauvegardée', 'success');
+        const ok = await SiteContent.save(c, adminPassword);
+        showToast(ok ? 'Page newsletter sauvegardée' : 'Erreur de sauvegarde', ok ? 'success' : '');
     }
 
     // ============ LOGEMENT ROOM EDITOR ============
@@ -1233,8 +1236,8 @@
         return features;
     }
 
-    function saveLogement() {
-        const c = SiteContent.load();
+    async function saveLogement() {
+        const c = await SiteContent.load();
         c.logement_header_title = document.getElementById('edit-logement_header_title').value.trim();
         c.logement_header_subtitle = document.getElementById('edit-logement_header_subtitle').value.trim();
         c.logement_intro = document.getElementById('edit-logement_intro').value.trim();
@@ -1244,12 +1247,12 @@
         c.logement_cta_url = document.getElementById('edit-logement_cta_url').value.trim();
         c.logement_rooms = collectRooms();
         c.logement_features = collectFeatures();
-        SiteContent.save(c);
-        showToast('Page logement sauvegardée', 'success');
+        const ok = await SiteContent.save(c, adminPassword);
+        showToast(ok ? 'Page logement sauvegardée' : 'Erreur de sauvegarde', ok ? 'success' : '');
     }
 
     // ============ INIT ============
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
         const loginScreen = document.getElementById('loginScreen');
         const adminPanel = document.getElementById('adminPanel');
         const loginBtn = document.getElementById('loginBtn');
@@ -1257,15 +1260,21 @@
         const loginError = document.getElementById('loginError');
 
         // Check if already logged in
-        if (isLoggedIn()) {
+        adminPassword = getStoredPassword();
+        if (isLoggedIn() && adminPassword) {
             loginScreen.style.display = 'none';
             adminPanel.style.display = 'block';
             loadFormData();
         }
 
         // Login
-        loginBtn.addEventListener('click', function() {
-            if (login(loginPassword.value)) {
+        loginBtn.addEventListener('click', async function() {
+            loginBtn.disabled = true;
+            loginBtn.textContent = '...';
+            const ok = await login(loginPassword.value);
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Connexion';
+            if (ok) {
                 loginScreen.style.display = 'none';
                 adminPanel.style.display = 'block';
                 loadFormData();
@@ -1330,11 +1339,11 @@
 
         // Reset buttons
         document.querySelectorAll('.btn-reset[data-reset]').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', async function() {
                 const section = this.dataset.reset;
                 if (!confirm('Réinitialiser cette section aux valeurs par défaut ?')) return;
 
-                const c = SiteContent.load();
+                const c = await SiteContent.load();
                 const d = SiteContent.defaults;
 
                 if (section === 'home') {
@@ -1377,30 +1386,26 @@
                     c.newsletter_articles = [...d.newsletter_articles];
                 }
 
-                SiteContent.save(c);
-                loadFormData();
-                showToast('Section réinitialisée', 'success');
+                const ok = await SiteContent.save(c, adminPassword);
+                if (ok) { loadFormData(); showToast('Section réinitialisée', 'success'); }
+                else showToast('Erreur de sauvegarde', '');
             });
         });
 
         // Reset all content
-        document.getElementById('reset-all-content').addEventListener('click', function() {
+        document.getElementById('reset-all-content').addEventListener('click', async function() {
             if (!confirm('Réinitialiser TOUT le contenu du site aux valeurs par défaut ? Cette action est irréversible.')) return;
-            SiteContent.reset();
-            loadFormData();
-            showToast('Tout le contenu a été réinitialisé', 'success');
+            const ok = await SiteContent.reset(adminPassword);
+            if (ok) { loadFormData(); showToast('Tout le contenu a été réinitialisé', 'success'); }
+            else showToast('Erreur de réinitialisation', '');
         });
 
         // Change password
-        document.getElementById('save-password').addEventListener('click', function() {
+        document.getElementById('save-password').addEventListener('click', async function() {
             const current = document.getElementById('current-password').value;
             const newPass = document.getElementById('new-password').value;
             const confirm = document.getElementById('confirm-password').value;
 
-            if (current !== getPassword()) {
-                showToast('Mot de passe actuel incorrect', '');
-                return;
-            }
             if (newPass.length < 4) {
                 showToast('Le nouveau mot de passe doit contenir au moins 4 caractères', '');
                 return;
@@ -1410,7 +1415,13 @@
                 return;
             }
 
-            localStorage.setItem(PASS_KEY, newPass);
+            const ok = await SiteContent.changePassword(current, newPass);
+            if (!ok) {
+                showToast('Mot de passe actuel incorrect', '');
+                return;
+            }
+            sessionStorage.setItem(PASS_KEY, newPass);
+            adminPassword = newPass;
             document.getElementById('current-password').value = '';
             document.getElementById('new-password').value = '';
             document.getElementById('confirm-password').value = '';

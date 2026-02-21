@@ -3,5 +3,10 @@ services:
     build: .
     container_name: nidam
     ports:
-      - "8090:80"
+      - "8090:3000"
+    volumes:
+      - nidam_data:/data
     restart: unless-stopped
+
+volumes:
+  nidam_data:
