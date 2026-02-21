@@ -429,8 +429,6 @@
         </button>
         <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Accueil</a></li>
-            <li><a href="logement.html" class="active">Logement</a></li>
-            <li><a href="bien-etre.html">Bien-etre</a></li>
             <li><a href="decouvrir.html">Region</a></li>
             <li><a href="galerie.html">Galerie</a></li>
             <li><a href="contact.html">Contact</a></li>
@@ -570,7 +568,9 @@
         <a href="https://www.airbnb.com/rooms/49770413" target="_blank" class="cta-btn">Reserver sur Airbnb</a>
     </section>
 
+    <script src="site-content.js"></script>
     <script>
+        SiteContent.applyToLogement();
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('navLinks');
         hamburger.addEventListener('click', () => {
@@ -590,8 +590,6 @@
             <div class="footer-logo">Nidam</div>
             <ul class="footer-links">
                 <li><a href="index.html">Accueil</a></li>
-                <li><a href="logement.html">Logement</a></li>
-                <li><a href="bien-etre.html">Bien-etre</a></li>
                 <li><a href="decouvrir.html">Region</a></li>
                 <li><a href="galerie.html">Galerie</a></li>
                 <li><a href="contact.html">Contact</a></li>

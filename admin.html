@@ -587,6 +587,7 @@
     <!-- Tabs -->
     <div class="admin-tabs">
         <button class="admin-tab active" data-tab="home">Accueil</button>
+        <button class="admin-tab" data-tab="logement">Logement</button>
         <button class="admin-tab" data-tab="gallery">Galerie</button>
         <button class="admin-tab" data-tab="contact">Contact</button>
         <button class="admin-tab" data-tab="newsletter">Newsletter</button>
@@ -653,6 +654,69 @@
             <div class="actions-bar">
                 <button class="btn-save" id="save-home">Enregistrer</button>
                 <button class="btn-reset" data-reset="home">Réinitialiser</button>
+            </div>
+        </div>
+
+        <!-- ===== TAB LOGEMENT ===== -->
+        <div class="admin-section" id="tab-logement">
+            <h2 class="section-title">Page Logement</h2>
+            <p class="section-desc">Modifiez les informations du logement, les pièces et les équipements</p>
+
+            <div class="form-group">
+                <label>Titre de la page</label>
+                <input type="text" id="edit-logement_header_title" placeholder="Titre de la page logement">
+            </div>
+
+            <div class="form-group">
+                <label>Sous-titre</label>
+                <input type="text" id="edit-logement_header_subtitle" placeholder="Sous-titre">
+            </div>
+
+            <div class="form-group">
+                <label>Texte d'introduction</label>
+                <textarea id="edit-logement_intro" placeholder="Texte d'introduction"></textarea>
+            </div>
+
+            <hr class="form-divider">
+
+            <h3 class="section-title" style="font-size:1.5rem;">Pièces &amp; Espaces</h3>
+            <p class="section-desc">Ajoutez, modifiez ou supprimez les pièces du logement</p>
+            <div id="logement-rooms-editor"></div>
+            <button class="btn-add" id="btn-add-room">+ Ajouter une pièce</button>
+
+            <hr class="form-divider">
+
+            <div class="form-group">
+                <label>Titre section équipements</label>
+                <input type="text" id="edit-logement_features_title" placeholder="Ex: Les équipements">
+            </div>
+
+            <h3 class="section-title" style="font-size:1.5rem;">Équipements</h3>
+            <p class="section-desc">Ajoutez, modifiez ou supprimez les équipements</p>
+            <div id="logement-features-editor"></div>
+            <button class="btn-add" id="btn-add-feature">+ Ajouter un équipement</button>
+
+            <hr class="form-divider">
+
+            <h3 class="section-title" style="font-size:1.5rem;">Appel à l'action</h3>
+            <div class="form-group">
+                <label>Titre</label>
+                <input type="text" id="edit-logement_cta_title" placeholder="Titre appel à l'action">
+            </div>
+
+            <div class="form-group">
+                <label>Texte</label>
+                <textarea id="edit-logement_cta_text" placeholder="Texte descriptif"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Lien de réservation (URL)</label>
+                <input type="url" id="edit-logement_cta_url" placeholder="https://...">
+            </div>
+
+            <div class="actions-bar">
+                <button class="btn-save" id="save-logement">Enregistrer</button>
+                <button class="btn-reset" data-reset="logement">Réinitialiser</button>
             </div>
         </div>
 
@@ -903,6 +967,8 @@
             'contact_title', 'contact_subtitle', 'contact_address',
             'contact_rating', 'contact_checkin', 'contact_booking_text',
             'contact_airbnb_url', 'contact_gites_url', 'contact_map_title',
+            'logement_header_title', 'logement_header_subtitle', 'logement_intro',
+            'logement_features_title', 'logement_cta_title', 'logement_cta_text', 'logement_cta_url',
             'newsletter_title', 'newsletter_subtitle'
         ];
 
@@ -916,6 +982,10 @@
         // Image galleries
         renderImageEditors('home-gallery-editor', c.home_gallery || []);
         renderImageEditors('gallery-images-editor', c.gallery_images || []);
+
+        // Logement rooms and features
+        renderRoomEditors(c.logement_rooms || []);
+        renderFeatureEditors(c.logement_features || []);
 
         // Newsletter articles
         renderArticleEditors(c.newsletter_articles || []);
@@ -1035,6 +1105,149 @@
         showToast('Page newsletter sauvegardée', 'success');
     }
 
+    // ============ LOGEMENT ROOM EDITOR ============
+    function createRoomEditor(room, index) {
+        const div = document.createElement('div');
+        div.className = 'article-editor';
+        div.dataset.index = index;
+
+        div.innerHTML =
+            '<div class="article-editor-header">' +
+                '<span>Pièce ' + (index + 1) + '</span>' +
+                '<button class="btn-remove-image">Supprimer</button>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Image (URL)</label>' +
+                '<input type="url" class="room-image" value="' + (room.image || '') + '" placeholder="https://...">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Description de l\'image (alt)</label>' +
+                '<input type="text" class="room-alt" value="' + (room.alt || '').replace(/"/g, '&quot;') + '" placeholder="Description de l\'image">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Titre de la pièce</label>' +
+                '<input type="text" class="room-title" value="' + (room.title || '').replace(/"/g, '&quot;') + '" placeholder="Ex: Chambre principale">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Description</label>' +
+                '<textarea class="room-description" placeholder="Description de la pièce">' + (room.description || '').replace(/</g, '&lt;') + '</textarea>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Étiquette (optionnel)</label>' +
+                '<input type="text" class="room-tag" value="' + (room.tag || '').replace(/"/g, '&quot;') + '" placeholder="Ex: Salle de bain privée">' +
+            '</div>';
+
+        div.querySelector('.btn-remove-image').addEventListener('click', function() {
+            div.remove();
+            const container = document.getElementById('logement-rooms-editor');
+            container.querySelectorAll('.article-editor').forEach((ed, i) => {
+                ed.dataset.index = i;
+                ed.querySelector('.article-editor-header span').textContent = 'Pièce ' + (i + 1);
+            });
+        });
+
+        return div;
+    }
+
+    function renderRoomEditors(rooms) {
+        const container = document.getElementById('logement-rooms-editor');
+        container.innerHTML = '';
+        rooms.forEach((room, i) => {
+            container.appendChild(createRoomEditor(room, i));
+        });
+    }
+
+    function collectRooms() {
+        const container = document.getElementById('logement-rooms-editor');
+        const editors = container.querySelectorAll('.article-editor');
+        const rooms = [];
+        editors.forEach(editor => {
+            const image = editor.querySelector('.room-image').value.trim();
+            const alt = editor.querySelector('.room-alt').value.trim();
+            const title = editor.querySelector('.room-title').value.trim();
+            const description = editor.querySelector('.room-description').value.trim();
+            const tag = editor.querySelector('.room-tag').value.trim();
+            if (title || image) {
+                rooms.push({ image, alt, title, description, tag });
+            }
+        });
+        return rooms;
+    }
+
+    // ============ LOGEMENT FEATURE EDITOR ============
+    function createFeatureEditor(feature, index) {
+        const div = document.createElement('div');
+        div.className = 'article-editor';
+        div.dataset.index = index;
+
+        div.innerHTML =
+            '<div class="article-editor-header">' +
+                '<span>Équipement ' + (index + 1) + '</span>' +
+                '<button class="btn-remove-image">Supprimer</button>' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Icône (emoji)</label>' +
+                '<input type="text" class="feature-icon-input" value="' + (feature.icon || '').replace(/"/g, '&quot;') + '" placeholder="🏠" style="max-width:100px;">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Titre</label>' +
+                '<input type="text" class="feature-title-input" value="' + (feature.title || '').replace(/"/g, '&quot;') + '" placeholder="Titre de l\'équipement">' +
+            '</div>' +
+            '<div class="form-group">' +
+                '<label>Description</label>' +
+                '<input type="text" class="feature-desc-input" value="' + (feature.description || '').replace(/"/g, '&quot;') + '" placeholder="Description courte">' +
+            '</div>';
+
+        div.querySelector('.btn-remove-image').addEventListener('click', function() {
+            div.remove();
+            const container = document.getElementById('logement-features-editor');
+            container.querySelectorAll('.article-editor').forEach((ed, i) => {
+                ed.dataset.index = i;
+                ed.querySelector('.article-editor-header span').textContent = 'Équipement ' + (i + 1);
+            });
+        });
+
+        return div;
+    }
+
+    function renderFeatureEditors(features) {
+        const container = document.getElementById('logement-features-editor');
+        container.innerHTML = '';
+        features.forEach((feature, i) => {
+            container.appendChild(createFeatureEditor(feature, i));
+        });
+    }
+
+    function collectFeatures() {
+        const container = document.getElementById('logement-features-editor');
+        const editors = container.querySelectorAll('.article-editor');
+        const features = [];
+        editors.forEach(editor => {
+            const icon = editor.querySelector('.feature-icon-input').value.trim();
+            const title = editor.querySelector('.feature-title-input').value.trim();
+            const description = editor.querySelector('.feature-desc-input').value.trim();
+            if (title) {
+                features.push({ icon, title, description });
+            }
+        });
+        return features;
+    }
+
+    function saveLogement() {
+        const c = SiteContent.load();
+        c.logement_header_title = document.getElementById('edit-logement_header_title').value.trim();
+        c.logement_header_subtitle = document.getElementById('edit-logement_header_subtitle').value.trim();
+        c.logement_intro = document.getElementById('edit-logement_intro').value.trim();
+        c.logement_features_title = document.getElementById('edit-logement_features_title').value.trim();
+        c.logement_cta_title = document.getElementById('edit-logement_cta_title').value.trim();
+        c.logement_cta_text = document.getElementById('edit-logement_cta_text').value.trim();
+        c.logement_cta_url = document.getElementById('edit-logement_cta_url').value.trim();
+        c.logement_rooms = collectRooms();
+        c.logement_features = collectFeatures();
+        SiteContent.save(c);
+        showToast('Page logement sauvegardée', 'success');
+    }
+
     // ============ INIT ============
     document.addEventListener('DOMContentLoaded', function() {
         const loginScreen = document.getElementById('loginScreen');
@@ -1082,9 +1295,21 @@
 
         // Save buttons
         document.getElementById('save-home').addEventListener('click', saveHome);
+        document.getElementById('save-logement').addEventListener('click', saveLogement);
         document.getElementById('save-gallery').addEventListener('click', saveGallery);
         document.getElementById('save-contact').addEventListener('click', saveContact);
         document.getElementById('save-newsletter').addEventListener('click', saveNewsletter);
+
+        // Add logement buttons
+        document.getElementById('btn-add-room').addEventListener('click', function() {
+            const container = document.getElementById('logement-rooms-editor');
+            container.appendChild(createRoomEditor({ image: '', alt: '', title: '', description: '', tag: '' }, container.children.length));
+        });
+
+        document.getElementById('btn-add-feature').addEventListener('click', function() {
+            const container = document.getElementById('logement-features-editor');
+            container.appendChild(createFeatureEditor({ icon: '', title: '', description: '' }, container.children.length));
+        });
 
         // Add image buttons
         document.getElementById('btn-add-home-image').addEventListener('click', function() {
@@ -1136,6 +1361,16 @@
                     c.contact_airbnb_url = d.contact_airbnb_url;
                     c.contact_gites_url = d.contact_gites_url;
                     c.contact_map_title = d.contact_map_title;
+                } else if (section === 'logement') {
+                    c.logement_header_title = d.logement_header_title;
+                    c.logement_header_subtitle = d.logement_header_subtitle;
+                    c.logement_intro = d.logement_intro;
+                    c.logement_rooms = [...d.logement_rooms];
+                    c.logement_features_title = d.logement_features_title;
+                    c.logement_features = [...d.logement_features];
+                    c.logement_cta_title = d.logement_cta_title;
+                    c.logement_cta_text = d.logement_cta_text;
+                    c.logement_cta_url = d.logement_cta_url;
                 } else if (section === 'newsletter') {
                     c.newsletter_title = d.newsletter_title;
                     c.newsletter_subtitle = d.newsletter_subtitle;
