@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json({ limit: '2mb' }));
 app.use(express.static(__dirname));
 
-const DATA_DIR = process.env.DATA_DIR || '/data';
+const DATA_DIR = process.env.DATA_DIR || './data';
 const CONTENT_FILE = path.join(DATA_DIR, 'content.json');
 const CONFIG_FILE = path.join(DATA_DIR, 'config.json');
 const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || 'Lisaemma9632';
