@@ -72,6 +72,19 @@
             color: var(--accent);
         }
 
+        .nav-connexion {
+            opacity: 0.45;
+            border: 1px solid rgba(44, 44, 44, 0.3) !important;
+            padding: 0.25rem 0.8rem !important;
+            border-radius: 2px;
+            font-size: 0.72rem !important;
+        }
+        .nav-connexion:hover {
+            opacity: 1;
+            color: var(--accent) !important;
+            border-color: var(--accent) !important;
+        }
+
         /* Hamburger button */
         .hamburger {
             display: none;
@@ -407,6 +420,7 @@
             <li><a href="decouvrir.html">Region</a></li>
             <li><a href="galerie.html">Galerie</a></li>
             <li><a href="contact.html">Contact</a></li>
+            <li><a href="admin.html" class="nav-connexion">Connexion</a></li>
         </ul>
     </nav>
 
@@ -434,7 +448,7 @@
                 <div class="info-icon">📧</div>
                 <div class="info-content">
                     <h3>Réservation</h3>
-                    <p>Via <a href="https://www.airbnb.com/rooms/49770413" target="_blank">Airbnb</a><br>ou <a href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank">Gîtes de France</a></p>
+                    <p>Via <a href="https://www.airbnb.com/rooms/49770413" target="_blank">Airbnb</a></p>
                 </div>
             </div>
 
@@ -471,10 +485,6 @@
             <div style="display: flex; flex-direction: column; gap: 1rem;">
                 <a href="https://www.airbnb.com/rooms/49770413" target="_blank" style="display: block; padding: 1.5rem; background: var(--accent); color: white; text-decoration: none; text-align: center; border-radius: 4px; font-weight: 400; letter-spacing: 1px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(139, 115, 85, 0.3);">
                     📱 Réserver sur Airbnb
-                </a>
-                
-                <a href="https://www.gites-de-france-isere.com/location-vacances-Gite-Nidam-a-Bilieu-38G43106.html" target="_blank" style="display: block; padding: 1.5rem; background: white; color: var(--charcoal); text-decoration: none; text-align: center; border-radius: 4px; font-weight: 400; letter-spacing: 1px; border: 2px solid var(--accent); transition: all 0.3s ease;">
-                    🏡 Voir sur Gîtes de France
                 </a>
             </div>
 
@@ -530,14 +540,12 @@
             if (sub) sub.innerHTML = c.contact_subtitle;
             const infoParagraphs = document.querySelectorAll('.info-content p');
             if (infoParagraphs[0]) infoParagraphs[0].innerHTML = c.contact_address;
-            if (infoParagraphs[2]) infoParagraphs[2].textContent = c.contact_rating;
+            if (infoParagraphs[2]) infoParagraphs[2].innerHTML = c.contact_rating;
             if (infoParagraphs[3]) infoParagraphs[3].innerHTML = c.contact_checkin;
             const mapTitle = document.querySelector('.map-title');
             if (mapTitle) mapTitle.textContent = c.contact_map_title;
             const airbnbLink = document.querySelector('a[href*="airbnb.com"]');
             if (airbnbLink && c.contact_airbnb_url) airbnbLink.href = c.contact_airbnb_url;
-            const gitesLink = document.querySelector('a[href*="gites-de-france"]');
-            if (gitesLink && c.contact_gites_url) gitesLink.href = c.contact_gites_url;
         })();
 
         // Mobile hamburger menu
@@ -555,7 +563,7 @@
         });
 
         // Hover effects pour les boutons
-        document.querySelectorAll('a[href*="airbnb"], a[href*="gites"]').forEach(link => {
+        document.querySelectorAll('a[href*="airbnb"]').forEach(link => {
             link.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-2px)';
                 this.style.boxShadow = '0 6px 20px rgba(139, 115, 85, 0.4)';
