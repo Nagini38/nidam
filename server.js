@@ -9,7 +9,9 @@ app.use(express.static(__dirname));
 const DATA_DIR = './data';
 const CONTENT_FILE = path.join(DATA_DIR, 'data.json');
 const CONFIG_FILE = path.join(DATA_DIR, 'config.json');
-const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || 'Lisaemma9632';
+// SHA-256 du mot de passe par défaut "Lisaemma9632"
+// Le client envoie toujours le hash SHA-256, jamais le mot de passe en clair
+const DEFAULT_PASSWORD = process.env.ADMIN_PASSWORD || '6854cafdd99f800be4efd946f7423533e2dfdeed53be26c464cfe11771d0c561';
 
 function ensureDataDir() {
     if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });

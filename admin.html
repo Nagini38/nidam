@@ -870,30 +870,37 @@
 <script>
     // ============ AUTH ============
     const AUTH_KEY = 'nidam_admin_auth';
-    const PASS_KEY = 'nidam_admin_pass_session';
-    let adminPassword = '';
+    const HASH_KEY = 'nidam_admin_hash';
+    // SHA-256 du mot de passe par défaut "Lisaemma9632"
+    const DEFAULT_HASH = '6854cafdd99f800be4efd946f7423533e2dfdeed53be26c464cfe11771d0c561';
+    let adminPassword = ''; // contiendra le hash SHA-256
+
+    async function sha256(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function getStoredHash() {
+        return localStorage.getItem(HASH_KEY) || DEFAULT_HASH;
+    }
 
     function isLoggedIn() {
         return sessionStorage.getItem(AUTH_KEY) === 'true';
     }
 
-    function getStoredPassword() {
-        return sessionStorage.getItem(PASS_KEY) || '';
-    }
-
     async function login(password) {
-        const ok = await SiteContent.auth(password);
+        const hash = await sha256(password);
+        const ok = hash === getStoredHash();
         if (ok) {
             sessionStorage.setItem(AUTH_KEY, 'true');
-            sessionStorage.setItem(PASS_KEY, password);
-            adminPassword = password;
+            adminPassword = hash;
         }
         return ok;
     }
 
     function logout() {
         sessionStorage.removeItem(AUTH_KEY);
-        sessionStorage.removeItem(PASS_KEY);
+        adminPassword = '';
         location.reload();
     }
 
@@ -1260,8 +1267,8 @@
         const loginError = document.getElementById('loginError');
 
         // Check if already logged in
-        adminPassword = getStoredPassword();
-        if (isLoggedIn() && adminPassword) {
+        if (isLoggedIn()) {
+            adminPassword = getStoredHash();
             loginScreen.style.display = 'none';
             adminPanel.style.display = 'block';
             loadFormData();
@@ -1404,24 +1411,29 @@
         document.getElementById('save-password').addEventListener('click', async function() {
             const current = document.getElementById('current-password').value;
             const newPass = document.getElementById('new-password').value;
-            const confirm = document.getElementById('confirm-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
 
             if (newPass.length < 4) {
                 showToast('Le nouveau mot de passe doit contenir au moins 4 caractères', '');
                 return;
             }
-            if (newPass !== confirm) {
+            if (newPass !== confirmPass) {
                 showToast('Les mots de passe ne correspondent pas', '');
                 return;
             }
 
-            const ok = await SiteContent.changePassword(current, newPass);
-            if (!ok) {
+            const currentHash = await sha256(current);
+            if (currentHash !== getStoredHash()) {
                 showToast('Mot de passe actuel incorrect', '');
                 return;
             }
-            sessionStorage.setItem(PASS_KEY, newPass);
-            adminPassword = newPass;
+
+            const newHash = await sha256(newPass);
+            // Mise à jour locale
+            localStorage.setItem(HASH_KEY, newHash);
+            adminPassword = newHash;
+            // Synchronisation serveur (optionnel, pour les sauvegardes)
+            await SiteContent.changePassword(currentHash, newHash).catch(() => {});
             document.getElementById('current-password').value = '';
             document.getElementById('new-password').value = '';
             document.getElementById('confirm-password').value = '';
